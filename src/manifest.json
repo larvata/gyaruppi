@@ -1,0 +1,35 @@
+{
+  "name": "gyaruppi",
+  "options_page": "options.html",
+  "background": {
+    "page": "background.html"
+  },
+  "browser_action": {
+    "default_popup": "popup.html"
+  },
+  "permissions":[
+    "storage",
+    "notifications",
+    "contextMenus",
+    "http://live.haruppi.top/",
+    "http://live.sashi.co/",
+    "http://local.larvata.me/",
+    "http://pic.cdn.zhanqi.tv/"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "http://www.zhanqi.tv/*",
+        "http://*.bilibili.com/*",
+        "http://*.hdslb.com/*"
+      ],
+      "js": ["site_addons/zhanqi.js"]
+    }
+  ],
+  "web_accessible_resources": [
+    "site_addons/zhanqi_inject.js"
+  ],
+  "homepage_url": "http://live.haruppi.top/",
+  "manifest_version": 2,
+  "content_security_policy": "script-src 'self' 'unsafe-eval' http://localhost:%PORT%; object-src 'self'"
+}

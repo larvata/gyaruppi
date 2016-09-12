@@ -1,0 +1,96 @@
+html {
+  width: 250px;
+  height: 350px;
+}
+
+.category {
+  margin-right: 0.5714em;
+  font-size: 1.12em;
+}
+
+.category.blue a{
+  border-left: 3px solid rgb(128, 88, 165);
+}
+
+.category.purple a{
+  border-left: 3px solid rgb(14, 144, 210);
+
+}
+
+.category a {
+  text-transform: capitalize;
+  color: rgb(75, 75, 75);
+  padding: 0.2em 0.5714em;
+  line-height: 1.25;
+  display: block;
+  font-family: sans-serif;
+}
+
+.schedule .item {
+  margin: 2px 3px 2px 5px;
+  padding: 2px 0;
+  border-radius: 3px;
+  background-color: rgb(240,240,240);
+}
+
+
+
+.schedule span {
+  display: inline-block;
+  padding: 0 2px;
+  line-height: 18px;
+}
+
+.schedule .datetime {
+  width: 160px;
+}
+
+.schedule .datetime .date {
+  color: gray;
+}
+
+.schedule .datetime .time {
+
+}
+
+.schedule .channel {
+  text-align: right;
+  color: gray;
+  float: right
+}
+
+
+.channel {
+
+}
+
+.channel .item{
+  margin: 0 2px 1px 0px;
+  padding: .5em 0;
+  color: black;
+  display: inline-block;
+  text-align: center;
+  width: 100%;
+  background-color: rgb(230,230,230);
+  cursor: pointer;
+}
+
+.channel .item:hover{
+  background-color: rgb(240,240,240);
+}
+
+.channel .item.online.zhanqi{
+  color: white;
+  background-color: rgb(70,136,241);
+}
+.channel .item.online.zhanqi:hover{
+  background-color: rgb(90,156,251);
+}
+
+.channel .item.online.bilibili{
+  color: white;
+  background-color: rgb(249,130,169);
+}
+.channel .item.online.bilibili:hover{
+  background-color: #ffafc9;
+}
