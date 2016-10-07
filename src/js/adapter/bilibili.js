@@ -21,13 +21,8 @@ const fetchRoomInfo = (room)=>{
               status = ROOM_STATUS.ONLINE;
             }
 
-            // room.domain =
-            console.log('bili title: ', data.ROOMTITLE);
             room.title = htmlDecode(data.ROOMTITLE);
-            console.log('bbb: ' , room.title);
             room.snapshotUrl = data.COVER;
-            // room.online =
-            // room.avatarUrl = 'http://i0.hdslb.com/bfs/face/2f3d4758ff0505639b477e4d72662cc0049d65f7.jpg';
             room.username = data.ANCHOR_NICK_NAME;
             room.follows = data.FANS_COUNT;
             room.liveStartAt = data.LIVE_TIMELINE;

@@ -1,51 +1,55 @@
 import 'babel-polyfill';
 import { MESSAGE } from './common';
-import { showRoomNotification } from './utils';
-import appMgr from './utils/ApplicationManager';
+import { showRoomNotification, showScheduleNotifaction } from './utils';
+import ApplicationManager from './utils/ApplicationManager';
 import {ROOM_STATUS} from './common';
 
-
 // export to popups
-// window.roomManager = roomManager;
-window.appMgr = appMgr;
+window.ApplicationManager = ApplicationManager;
 
-chrome.runtime.onMessage.addListener((request, sender, sendResponse)=>{
+chrome.runtime.onMessage.addListener((request, sender, response) => {
   let {type} = request;
   if (type === MESSAGE.SUBSCRIBE) {
+    let {provider, roomId, title} = request.message;
+    ApplicationManager.addToCustomRooms({provider, id: roomId, isStockRoom: false, title});
+    const result = {
+      subscribed: true
+    };
+    response(result);
+  }
+  else if(type === MESSAGE.UNSUBSCRIBE){
     let {provider, roomId} = request.message;
-    console.log(`Showroom HOOK: { Room: ${roomId}, Provider: ${provider} }`);
-    // todo code for register new notification
-    //
+    ApplicationManager.removeFromCustomRooms({provider, id: roomId});
+    const result = {
+      subscribed: false
+    };
+    response(result);
+  }
+  else if (type === MESSAGE.GET_INIT_DATA)
+  {
+    const data = {};
+    data.settings = ApplicationManager.getAllSettings();
+    data.customRooms = ApplicationManager.getCustomRooms();
+    response(data);
   }
 });
-
-// create context menus
-// chrome.contextMenus.create({
-//   title: 'heheh',
-//   contexts: ['browser_action', 'page_action'],
-// })
-
-chrome.storage.local.clear();
-
 
 // main entry
 // load data
 (async ()=>{
-  appMgr.onRoomStatusChanges=(room)=>{
-    console.log(`Room ${room.title} status changed to ${room.status}`);
+  ApplicationManager.onRoomStatusChanges=(room)=>{
     if (room.status === ROOM_STATUS.ONLINE) {
       showRoomNotification(room);
     }
   };
 
-  appMgr.onScheduleChanges=(schedules)=>{
-    console.log('schedule changed: ', schedules);
+  ApplicationManager.onScheduleChanges=(schedules)=>{
+    // chrome.browserAction.setBadgeText(text:text);
+    ApplicationManager.setBadge('!');
+    showScheduleNotifaction(schedules);
   };
 
-  await appMgr.initialize();
-  await appMgr.startMiichanWorker();
-  appMgr.startRoomWorker();
-
+  await ApplicationManager.initialize();
+  await ApplicationManager.startMiichanWorker();
+  ApplicationManager.startRoomWorker();
 })();
-
-console.log('Background.js');

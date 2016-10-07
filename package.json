@@ -1,12 +1,13 @@
 {
   "name": "gyaruppi",
-  "version": "1.0.0",
+  "version": "1.0.5",
   "description": "48 Group live schedule",
   "scripts": {
     "build": "node build.js",
     "start": "node webserver.js"
   },
   "dependencies": {
+    "material-ui": "^0.15.4",
     "node-uuid": "^1.4.7",
     "react": "15.0.1",
     "react-dom": "15.0.1",
@@ -30,7 +31,7 @@
     "fs-extra": "^0.26.7",
     "react-transform-hmr": "^1.0.4",
     "style-loader": "^0.13.0",
-    "webpack": "^1.12.15",
+    "webpack": "^1.13.2",
     "webpack-dev-server": "^1.14.1"
   }
 }

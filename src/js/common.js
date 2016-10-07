@@ -6,7 +6,8 @@ export const PROVIDER = {
 
 export const MESSAGE = {
   SUBSCRIBE: 'subscribe',
-  UNSUBSCRIBE: 'unsubscribe'
+  UNSUBSCRIBE: 'unsubscribe',
+  GET_INIT_DATA: 'getInitData'
 };
 
 

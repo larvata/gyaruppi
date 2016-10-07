@@ -1,8 +1,8 @@
 import {ROOM_STATUS} from '../common';
 
-const ProviderUrlPerfix = {
-  zhanqi: 'http://www.zhanqi.tv'
-};
+// const ProviderUrlPerfix = {
+//   zhanqi: 'http://www.zhanqi.tv'
+// };
 
 export default class Room{
   constructor({
@@ -18,7 +18,11 @@ export default class Room{
       username = '',
       roomUrl = '',
       alias = '',
-      status = ROOM_STATUS.OFFLINE
+      status = ROOM_STATUS.OFFLINE,
+
+      isStockRoom = true,
+      locked = false,
+      enabled = true
   }){
     this.provider = provider;
     this.id = id;
@@ -33,6 +37,10 @@ export default class Room{
     this.roomUrl = roomUrl;
     this.alias = alias;
     this.status = status;
+
+    this.isStockRoom = isStockRoom;
+    this.locked = locked;
+    this.enabled = enabled;
   }
 
   getMinuteElapsed(){

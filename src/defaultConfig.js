@@ -1,20 +1,16 @@
 export default {
-  "stockRoomsVersion": 0,
-  "stockRooms": [
-    {
-      "provider": "zhanqi",
-      "id": 33968,
-      "alias": "akb49房间"
-    },
-    {
-      "provider": "zhanqi",
-      "id": 33967,
-      "alias": "ske48房间"
-    },
-    {
-      "provider": "zhanqi",
-      "id": 83706,
-      "alias": "hkt48房间"
+  API_SERVER: 'https://live.haruppi.top/api/miichan',
+  // API_SERVER: 'http://local.larvata.me:8134/api/miichan',
+
+  MIICHAN_INTERVAL: 1000 * 60 * 15,
+  ROOM_INTERVAL: 1000 * 60 * 5,
+
+  initial: {
+    settings: {
+      showRoomNotification: true,
+      showScheduleNotifaction: true,
+      allowInjectSubscribeButtonScript: true,
+      allowInjectRemoveAdsScript: false
     }
-  ]
-}
+  }
+};

@@ -77,6 +77,28 @@ export const showRoomNotification=async (room)=>{
   };
 
   chrome.notifications.create(room.getRoomKey(), options,(notificationId)=>{
-    console.log('Notification: ', room.title);
+    // console.log('Notification: ', room.title);
+  });
+};
+
+
+export const showScheduleNotifaction = async (schedules) => {
+  const items = schedules.map(s => {
+    const start = s.time.split('~')[0];
+    return {
+      title: start,
+      message: s.description
+    };
+  });
+
+  const options = {
+    type: 'list',
+    iconUrl: 'images/gako.png',
+    title: '番组表更新',
+    message: 'null',
+    items: items
+  };
+  chrome.notifications.create('scheduleNotifactionKey', options, notificationId =>{
+    // log
   });
 };

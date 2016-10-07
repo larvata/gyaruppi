@@ -1,0 +1,88 @@
+var supportedSites = {
+  'www.zhanqi.tv': 'site_addons/zhanqi_inject.js',
+  'live.bilibili.com': 'site_addons/bilibili_inject.js'
+};
+
+if (supportedSites.hasOwnProperty(location.host)) {
+  var updateGlobalCustomRoomsData = function(customRooms){
+    window.__gyaruppi.customRooms = customRooms;
+  };
+  var getGlobalCustomRoomsData = function(){
+    return window.__gyaruppi.customRooms || [];
+  };
+
+  var getInjectScriptUrl = function(){
+    var script = supportedSites[location.host];
+    return chrome.extension.getURL(script);
+  };
+
+  window.addEventListener('message', function(event){
+    // handle injected content script message
+    if (event.source !== window) {
+      return;
+    }
+
+    var eventData = event.data;
+    var type = eventData.type;
+    var message = eventData.message;
+
+    if (type === 'scriptInjected') {
+      // update subscribe state to injected script
+      var currentRoomProvider = message.currentRoomProvider;
+      var currentRoomId = message.currentRoomId;
+      var customRooms = getGlobalCustomRoomsData();
+      var room = customRooms.find(function(cr){return cr.provider === currentRoomProvider && cr.id === currentRoomId});
+      if (room && room.isStockRoom) {
+        return;
+      }
+      var subscribed = room ? true : false;
+      window.postMessage({
+        type: 'updateSubscribeState',
+        message: {
+          subscribed: subscribed,
+          init: true
+        }
+      }, '*');
+      return;
+    }
+    else if(type === 'subscribe' || type === 'unsubscribe'){
+      chrome.runtime.sendMessage(eventData, function(data){
+        // background page callback
+        var subscribed = data.subscribed;
+        window.postMessage({
+          type: 'updateSubscribeState',
+          message: {
+            subscribed: subscribed
+          }
+        }, '*');
+      });
+    }
+  });
+
+  chrome.runtime.sendMessage({
+    type: 'getInitData',
+    message: {}
+  }, function(data){
+    var customRooms = data.customRooms;
+    var settings = data.settings;
+    var allowInjectSubscribeButtonScript = settings.allowInjectSubscribeButtonScript;
+
+    if (!allowInjectSubscribeButtonScript) {
+      console.log('inject subscribe script is not allowed');
+      return;
+    }
+
+    // add custom variables to window
+    window.__gyaruppi = {};
+    updateGlobalCustomRoomsData(customRooms);
+
+    var s = document.createElement('script');
+    s.src = getInjectScriptUrl();
+    s.onload = function() {
+      this.parentNode.removeChild(this);
+    };
+    (document.head || document.documentElement).appendChild(s);
+  });
+}
+
+

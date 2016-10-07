@@ -5,31 +5,43 @@
     "page": "background.html"
   },
   "browser_action": {
-    "default_popup": "popup.html"
+    "default_popup": "popup.html",
+    "default_icon": "images/gako.png",
+    "default_title":"gyaruppi"
   },
   "permissions":[
     "storage",
     "notifications",
     "contextMenus",
-    "http://live.haruppi.top/",
-    "http://live.sashi.co/",
+    "https://live.haruppi.top/",
     "http://local.larvata.me/",
-    "http://pic.cdn.zhanqi.tv/"
+    "http://pic.cdn.zhanqi.tv/",
+    "http://api.bilibili.com/"
   ],
+  "icons":{
+    "128":"images/gako.png"
+  },
   "content_scripts": [
     {
       "matches": [
+        "https://local.local.larvata.me/*",
         "http://www.zhanqi.tv/*",
-        "http://*.bilibili.com/*",
+        "https://www.zhanqi.tv/*",
+        "http://live.bilibili.com/*",
+        "https://live.bilibili.com/*",
         "http://*.hdslb.com/*"
       ],
-      "js": ["site_addons/zhanqi.js"]
+      "js": [
+        "site_addons/script_injector.js"
+      ]
     }
   ],
   "web_accessible_resources": [
-    "site_addons/zhanqi_inject.js"
+    "site_addons/zhanqi_inject.js",
+    "site_addons/bilibili_inject.js",
+    "images/profile.png"
   ],
-  "homepage_url": "http://live.haruppi.top/",
+  "homepage_url": "https://live.haruppi.top/",
   "manifest_version": 2,
   "content_security_policy": "script-src 'self' 'unsafe-eval' http://localhost:%PORT%; object-src 'self'"
 }

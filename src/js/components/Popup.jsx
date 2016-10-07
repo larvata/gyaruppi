@@ -1,14 +1,15 @@
 import React from 'react';
 import {ROOM_STATUS} from '../common';
 
+const { ApplicationManager } = chrome.extension.getBackgroundPage();
 
 export default class Popup extends React.Component {
 
   constructor(props) {
     super(props);
 
-    let allRoomsInfo = chrome.extension.getBackgroundPage().appMgr.getAllRooms();
-    let allSchedules = chrome.extension.getBackgroundPage().appMgr.getAllSchedules();
+    let allRoomsInfo = ApplicationManager.getCustomRooms();
+    let allSchedules = ApplicationManager.getAllSchedules();
 
     this.state = {
       allRoomsInfo,
@@ -23,6 +24,9 @@ export default class Popup extends React.Component {
     //     allRoomsInfo
     //   });
     // };
+    console.log('test');
+    const contentHeight = document.body.clientHeight;
+    document.documentElement.style['height'] = (contentHeight + 'px');
   }
 
   componentDidUpdate(){
@@ -89,7 +93,8 @@ export default class Popup extends React.Component {
       }
       const timeString = `${startHour}:${startMinute}~${endHour}:${endMinute}`;
 
-      const currentRoom = allRoomsInfo.find(r=>r.id === schedule.roomId);
+      const currentRoom = allRoomsInfo.find(r=>r.id === schedule.roomId) || {alias: ''};
+
 
       return (
         <div className="item" key={index}>
@@ -122,9 +127,9 @@ export default class Popup extends React.Component {
 
   renderChannel(){
     console.log('render channel');
-    const {allRoomsInfo,allSchedules} = this.state;
+    const { allRoomsInfo } = this.state;
 
-    let roomItems = allRoomsInfo.map(room=>{
+    let roomItems = allRoomsInfo.filter(r=>r.enabled).map(room=>{
       let roomKey = `${room.provider}#${room.id}`;
       let itemClassArray = ['item'];
       itemClassArray.push(room.provider);

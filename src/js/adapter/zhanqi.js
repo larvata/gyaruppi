@@ -3,7 +3,7 @@ import {htmlDecode} from '../utils';
 import {ROOM_STATUS} from '../common';
 
 const fetchRoomInfo = (room)=>{
-  const requestPath = `http://www.zhanqi.tv/api/static/live.roomid/${room.id}.json`;
+  const requestPath = `https://www.zhanqi.tv/api/static/live.roomid/${room.id}.json`;
   return new Promise((resolve, reject)=>{
     request.get(requestPath).set('Accept', 'application/json').end((err, res)=>{
 
