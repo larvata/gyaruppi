@@ -24,7 +24,6 @@
   "content_scripts": [
     {
       "matches": [
-        "https://local.local.larvata.me/*",
         "http://www.zhanqi.tv/*",
         "https://www.zhanqi.tv/*",
         "http://live.bilibili.com/*",
