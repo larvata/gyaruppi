@@ -1,4 +1,8 @@
  ✔ update homepage of extenison @done (16-10-12 00:45)
 
- ☐ fix wrong timezone in schedule notification
- ☐ show a grey alert icon in stock room
+ ✔ fix wrong timezone in schedule notification @done (16-10-16 03:43)
+ ✔ show a grey alert icon in stock room @done (16-10-16 04:17)
+
+ ☐ add support for douyu.tv
+ ☐ add support for showroom
+ ✔ clean view for showroom @done (16-10-16 05:52)

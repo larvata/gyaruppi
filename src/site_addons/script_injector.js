@@ -1,6 +1,7 @@
 var supportedSites = {
   'www.zhanqi.tv': 'site_addons/zhanqi_inject.js',
-  'live.bilibili.com': 'site_addons/bilibili_inject.js'
+  'live.bilibili.com': 'site_addons/bilibili_inject.js',
+  'www.showroom-live.com': 'site_addons/showroom_inject.js'
 };
 
 if (supportedSites.hasOwnProperty(location.host)) {
@@ -32,15 +33,14 @@ if (supportedSites.hasOwnProperty(location.host)) {
       var currentRoomId = message.currentRoomId;
       var customRooms = getGlobalCustomRoomsData();
       var room = customRooms.find(function(cr){return cr.provider === currentRoomProvider && cr.id === currentRoomId});
-      if (room && room.isStockRoom) {
-        return;
-      }
+
       var subscribed = room ? true : false;
       window.postMessage({
         type: 'updateSubscribeState',
         message: {
           subscribed: subscribed,
-          init: true
+          init: true,
+          disable: room.isStockRoom || false
         }
       }, '*');
       return;

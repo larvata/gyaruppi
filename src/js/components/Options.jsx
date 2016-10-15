@@ -166,6 +166,13 @@ export default class Options extends React.Component {
   }
 
   _renderAbout(){
+    const changelog =
+`1.0.6
+- 修复: 节目通知弹出窗口, 按本地时间修正修正播出时间
+- UI: 在内置番组直播间页面也显示通知按钮
+- 新增: 支持showroom修改播放控件尺寸
+`;
+
     return (
       <div style={{paddingLeft: '250px'}}>
         <div style={{width:'300px', margin: '280px 40%', fontSize:'20px'}}>
@@ -178,6 +185,9 @@ export default class Options extends React.Component {
           <p>
             <span>意见反馈</span> <a href="http://weibo.com/u/5593301047">兒玉遥应援会</a>
           </p>
+          <div>
+            <textarea style={{width: '350px', height: '264px','fontSize': 'medium'}} value={changelog} />
+          </div>
         </div>
       </div>
     );
