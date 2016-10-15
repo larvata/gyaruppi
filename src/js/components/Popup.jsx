@@ -1,5 +1,6 @@
 import React from 'react';
 import {ROOM_STATUS} from '../common';
+import {parseScheduleTime} from '../utils';
 
 const { ApplicationManager } = chrome.extension.getBackgroundPage();
 
@@ -18,23 +19,11 @@ export default class Popup extends React.Component {
   }
 
   componentDidMount(){
-    // chrome.extension.getBackgroundPage().roomManager.roomInfoChangedHandler = (roomInfo, allRoomsInfo)=>{
-    //   console.log('roomInfoChanged in jsx');
-    //   this.setState({
-    //     allRoomsInfo
-    //   });
-    // };
-    console.log('test');
     const contentHeight = document.body.clientHeight;
     document.documentElement.style['height'] = (contentHeight + 'px');
   }
 
-  componentDidUpdate(){
-
-  }
-
   _roomItemClickHandler(roomUrl){
-    // console.log(roomUrl);
     chrome.tabs.create({url:roomUrl});
   }
 
@@ -78,23 +67,10 @@ export default class Popup extends React.Component {
       const dateString = dateArray.slice(1).join('/');
 
       // build time string by local timezone
-      const scheduleTime = this._parseScheduleTime(schedule.time);
-      const currentTimezoneOffset = new Date().getTimezoneOffset();
-      const hourOffset = (-540 - currentTimezoneOffset) / 60;
+      const scheduleTime = parseScheduleTime(schedule.time);
       let { startHour, endHour, startMinute, endMinute } = scheduleTime.data;
-      startHour = +startHour + hourOffset;
-      endHour = +endHour + hourOffset;
-
-      if (startHour < 0) {
-        startHour = 24 + startHour;
-      }
-      if (endHour < 0) {
-        endHour = 24 + endHour;
-      }
       const timeString = `${startHour}:${startMinute}~${endHour}:${endMinute}`;
-
       const currentRoom = allRoomsInfo.find(r=>r.id === schedule.roomId) || {alias: ''};
-
 
       return (
         <div className="item" key={index}>
@@ -126,7 +102,6 @@ export default class Popup extends React.Component {
   }
 
   renderChannel(){
-    console.log('render channel');
     const { allRoomsInfo } = this.state;
 
     let roomItems = allRoomsInfo.filter(r=>r.enabled).map(room=>{

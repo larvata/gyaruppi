@@ -48,6 +48,54 @@ export const getImageBase64=(imageUrl)=>{
   });
 };
 
+// parse data object from schedule time string from backend api
+// and update the time by current timezone
+export const parseScheduleTime = (timeString) => {
+  const validateRegex =  /^([0-9]?[0-9]):([0-5][0-9])~([0-9]?[0-9]):([0-5][0-9])$/;
+  const matched = timeString.match(validateRegex);
+  const result = {
+    validated: false,
+    data: {
+      startHour: null,
+      startMinute: null,
+      endHour: null,
+      endMinute: null,
+      timezone: 9
+    }
+  };
+
+  if (!timeString) {
+    // ignore the validate for the empty time
+    result.validated = true;
+    return result;
+  }
+
+  if (matched && matched.length === 5) {
+    result.validated = true;
+    result.data.startHour = matched[1];
+    result.data.startMinute = matched[2];
+    result.data.endHour = matched[3];
+    result.data.endMinute = matched[4];
+  }
+
+  const currentTimezoneOffset = new Date().getTimezoneOffset();
+  const hourOffset = (-540 - currentTimezoneOffset) / 60;
+  let { startHour, endHour } = result.data;
+  startHour = +startHour + hourOffset;
+  endHour = +endHour + hourOffset;
+
+  if (startHour < 0) {
+    startHour = 24 + startHour;
+  }
+  if (endHour < 0) {
+    endHour = 24 + endHour;
+  }
+
+  result.data.startHour = startHour;
+  result.data.endHour = endHour;
+
+  return result;
+};
 
 export const showRoomNotification=async (room)=>{
   let avatar64 = await getImageBase64(room.avatarUrl);
@@ -84,9 +132,11 @@ export const showRoomNotification=async (room)=>{
 
 export const showScheduleNotifaction = async (schedules) => {
   const items = schedules.map(s => {
-    const start = s.time.split('~')[0];
+    const scheduleTime = parseScheduleTime(s.time);
+    let { startHour, startMinute } = scheduleTime.data;
+
     return {
-      title: start,
+      title: `${startHour}:${startMinute}`,
       message: s.description
     };
   });

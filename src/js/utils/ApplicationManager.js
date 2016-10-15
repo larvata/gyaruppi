@@ -196,18 +196,6 @@ class ApplicationManager{
     return this.customRooms.filter(sr=>sr.title);
   }
 
-  // update new customRooms to local variables and save it to localstorage
-  // _setCustomRooms(nextCustomRooms){
-  //   if (!nextCustomRooms) {
-  //     console.log('Invalid customRooms');
-  //     return;
-  //   }
-  //   this.customRooms = nextCustomRooms;
-  //   localStorage.set({
-  //     customRooms: nextCustomRooms
-  //   });
-  // }
-
   removeFromCustomRooms(roomInfo){
     const {id, provider} = roomInfo;
     let room = this.customRooms.find(cr => cr.provider === provider && cr.id === id);
