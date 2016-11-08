@@ -40,7 +40,7 @@ if (supportedSites.hasOwnProperty(location.host)) {
         message: {
           subscribed: subscribed,
           init: true,
-          disable: room.isStockRoom || false
+          disable: (room && room.isStockRoom) || false
         }
       }, '*');
       return;

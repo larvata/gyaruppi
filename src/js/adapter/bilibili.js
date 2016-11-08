@@ -30,21 +30,33 @@ const fetchRoomInfo = (room)=>{
 
             room.roomUrl = `http://live.bilibili.com/${room.id}`;
 
+            return resolve(room);
+
+            // todo
+            // bili user api require the referer that cant be set at browser site
+            // disable the avatar until find the better implement
+            //
             // complete user info
-            const userInfoPath = `http://api.bilibili.com/userinfo?mid=${data.MASTERID}`;
-            request.get(userInfoPath).end((err, res)=>{
-              if (err) {
-                reject(err);
-              }
-              else{
-                let parsed = JSON.parse(res.text);
-                if (parsed && parsed.code === 0) {
-                  // let {data} = parsed;
-                  room.avatarUrl = parsed.face;
+            const userInfoPath = 'http://space.bilibili.com/ajax/member/GetInfo';
+            const postReferer = `http://space.bilibili.com/${data.MASTERID}/`;
+            request
+              .post(userInfoPath)
+              .set('Referer', postReferer)
+              .send({mid: data.MASTERID})
+              .end((err, res)=>{
+                if (err) {
+                  reject(err);
                 }
-              }
-              resolve(room);
-            });
+                else{
+                  let parsed = JSON.parse(res.text);
+                  const {data} = parsed;
+                  if (data && parsed.status === true) {
+                    // let {data} = parsed;
+                    room.avatarUrl = data.face;
+                  }
+                }
+                resolve(room);
+              });
           }
         }
         catch(e){

@@ -28,7 +28,6 @@
         "https://www.zhanqi.tv/*",
         "http://live.bilibili.com/*",
         "https://live.bilibili.com/*",
-        "http://*.hdslb.com/*",
         "https://www.showroom-live.com/*"
       ],
       "js": [

@@ -167,7 +167,12 @@ export default class Options extends React.Component {
 
   _renderAbout(){
     const changelog =
-`1.0.6
+`
+1.0.9:
+- 修复: bilibili api更新
+1.0.8
+- 修复: 无法添加自定义房间
+1.0.7
 - 修复: 节目通知弹出窗口, 按本地时间修正修正播出时间
 - UI: 在内置番组直播间页面也显示通知按钮
 - 新增: 支持showroom修改播放控件尺寸
