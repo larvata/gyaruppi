@@ -1,6 +1,7 @@
 import zhanqi from './zhanqi';
 import bilibili from './bilibili';
-import {PROVIDER} from '../common';
+import panda from './panda';
+import { PROVIDER } from '../common';
 
 export function fetchRoomInfo(room){
   let adapter = null;
@@ -11,6 +12,9 @@ export function fetchRoomInfo(room){
   }
   else if(room.provider === PROVIDER.BILIBILI) {
     adapter = bilibili;
+  }
+  else if(room.provider === PROVIDER.PANDA) {
+    adapter = panda;
   }
   // else if(provider === PROVIDER.DOUYU){
 

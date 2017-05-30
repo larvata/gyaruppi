@@ -27,7 +27,6 @@ const fetchRoomInfo = (room)=>{
               status = ROOM_STATUS.ONLINE;
             }
 
-            room.domain = data.domain;
             room.title = htmlDecode(data.title);
             room.snapshotUrl = data.bpic;
             room.online = +data.online;
@@ -37,12 +36,11 @@ const fetchRoomInfo = (room)=>{
             room.liveStartAt = data.liveTime;
             room.status = status;
 
-            room.roomUrl = `http://www.zhanqi.tv/${room.domain}`;
-
+            room.roomUrl = `http://www.zhanqi.tv${data.url}`;
           }
         }
         catch(e){
-          console.log('Failed on parsing room info: ', res.text);
+          console.log('[ZHANQI FETCHER]Failed on parsing room info: ', res.text);
           reject(e);
         }
         resolve(room);

@@ -1,7 +1,7 @@
 // init scribe state
-var currentRoomId = window.ROOMID;
-var currentRoomProvider = 'bilibili';
-var currentRoomTitle = document.querySelector('.room-title').innerText;
+var currentRoomId = +window._config_roominfo.roominfo.id;
+var currentRoomProvider = 'panda';
+var currentRoomTitle = document.querySelector('.room-head-info-title').innerText;
 var subscribed = false;
 
 // init event listener
@@ -29,14 +29,14 @@ window.addEventListener('message', function(event){
       subscribeIcon.style.verticalAlign = 'text-bottom';
       subscribeIcon.innerHTML = bellImageEnabled + bellImageDisabled;
 
-      document.querySelector('.room-title').firstChild.before(subscribeIcon);
+      document.querySelector('.room-head-info-title').firstChild.before(subscribeIcon);
       document.querySelector('.gyaruppi-subscribe').style.cursor = 'pointer';
       document.querySelector('.gyaruppi-subscribe').addEventListener('click', function(){
         var currentMessageType = subscribed ? 'unsubscribe' : 'subscribe';
         window.postMessage({
           type: currentMessageType,
           message: {
-            provider: 'bilibili',
+            provider: 'panda',
             roomId: currentRoomId,
             title: currentRoomTitle
           }
@@ -54,6 +54,7 @@ window.addEventListener('message', function(event){
       document.querySelector('.gyaruppi-bell.disabled').style.display = 'block';
     }
   }
+
 });
 
 // send init message to content script host to get current room info

@@ -13,10 +13,8 @@
     "storage",
     "notifications",
     "contextMenus",
-    "https://live.haruppi.top/",
-    "http://local.larvata.me/",
-    "http://pic.cdn.zhanqi.tv/",
-    "http://api.bilibili.com/"
+    "http://*.hdslb.com/*",
+    "http://*.pdim.gs/*"
   ],
   "icons":{
     "128":"images/gako.png"
@@ -24,10 +22,13 @@
   "content_scripts": [
     {
       "matches": [
-        "http://www.zhanqi.tv/*",
-        "https://www.zhanqi.tv/*",
-        "http://live.bilibili.com/*",
-        "https://live.bilibili.com/*",
+        "https://live.haruppi.top/",
+        "http://local.larvata.me/",
+        "http://*.zhanqi.tv/*",
+        "https://*.zhanqi.tv/*",
+        "http://*.bilibili.com/*",
+        "https://*.bilibili.com/*",
+        "http://*.panda.tv/*",
         "https://www.showroom-live.com/*"
       ],
       "js": [
@@ -38,6 +39,7 @@
   "web_accessible_resources": [
     "site_addons/zhanqi_inject.js",
     "site_addons/bilibili_inject.js",
+    "site_addons/panda_inject.js",
     "site_addons/showroom_inject.js",
     "images/profile.png"
   ],

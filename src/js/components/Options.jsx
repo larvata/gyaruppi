@@ -168,6 +168,8 @@ export default class Options extends React.Component {
   _renderAbout(){
     const changelog =
 `
+1.0.10:
+- 修复: 无法通过插件进入战旗房间的问题
 1.0.9:
 - 修复: bilibili api更新
 1.0.8
@@ -188,7 +190,7 @@ export default class Options extends React.Component {
           <div><span>gyaruppi {currentVersion}</span></div>
           <div><a href="https://live.haruppi.top/">48系番组直播间</a></div>
           <p>
-            <span>意见反馈</span> <a href="http://weibo.com/u/5593301047">兒玉遥应援会</a>
+            <span>意见反馈</span><a href="http://weibo.com/u/5593301047">兒玉遥应援会</a>
           </p>
           <div>
             <textarea style={{width: '350px', height: '264px','fontSize': 'medium'}} value={changelog} />

@@ -93,3 +93,12 @@ html {
 .channel .item.online.bilibili:hover{
   background-color: #ffafc9;
 }
+
+.channel .item.online.panda{
+  color: white;
+  background-color: #04c073;
+}
+
+.channel .item.online.panda:hover{
+  background-color: #1EDA8D;
+}

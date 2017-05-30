@@ -29,11 +29,12 @@ class ApplicationManager{
 
     this.onRoomStatusChanges = null;
     this.onScheduleChanges = null;
+    this.onNotificationClicked = null;
   }
 
   async initialize(){
     let savedData = await localStorage.get(null);
-    console.log('extension init: ', savedData);
+    // console.log('extension init: ', savedData);
     let {
       clientId,
       stockRoomsVersion,
@@ -49,7 +50,7 @@ class ApplicationManager{
       await localStorage.set({
         clientId
       }, ()=> console.log('clientId saved.'));
-      console.log('not find saved clientId, generate new:', clientId);
+      // console.log('not find saved clientId, generate new:', clientId);
     }
 
     // init local variables
@@ -70,6 +71,14 @@ class ApplicationManager{
         return room;
       });
     }
+
+    //register the notifaction onclick event handler
+    chrome.notifications.onClicked.addListener((notificationId) => {
+      const room = this._getRoomByNotificationId(notificationId);
+      if (room && this.onNotificationClicked) {
+        this.onNotificationClicked(room);
+      }
+    });
   }
 
   // rehydrate customRooms data to Room object from localstorage
@@ -100,6 +109,17 @@ class ApplicationManager{
   _getMiichanUrl(){
     let url = `${API_SERVER}/${this.clientId}`;
     return url;
+  }
+
+  _getRoomByNotificationId(notificationId){
+    // the notification is formatted as <Provider>#<RoomId>
+    const find = this.customRooms.find(r => {
+      const currentKey = r.getRoomKey();
+      if (currentKey == notificationId) {
+        return r;
+      }
+    });
+    return find;
   }
 
   async _fetchMiichan(){

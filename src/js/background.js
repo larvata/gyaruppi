@@ -37,13 +37,25 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 // main entry
 // load data
 (async ()=>{
-  ApplicationManager.onRoomStatusChanges=(room)=>{
+  ApplicationManager.onRoomStatusChanges = (room) => {
     if (room.status === ROOM_STATUS.ONLINE) {
       showRoomNotification(room);
     }
+    else if(room.status === ROOM_STATUS.OFFLINE){
+      const roomKey = room.getRoomKey();
+      console.log('try to clear the room notifications:', roomKey);
+      chrome.notifications.clear(roomKey);
+    }
   };
 
-  ApplicationManager.onScheduleChanges=(schedules)=>{
+  ApplicationManager.onNotificationClicked = (room) => {
+    const { roomUrl } = room;
+    if (roomUrl) {
+      chrome.tabs.create({ url: roomUrl });
+    }
+  };
+
+  ApplicationManager.onScheduleChanges = (schedules) => {
     // chrome.browserAction.setBadgeText(text:text);
     ApplicationManager.setBadge('!');
     showScheduleNotifaction(schedules);

@@ -7,6 +7,7 @@ import {ROOM_STATUS} from '../common';
 export default class Room{
   constructor({
       provider = null,
+      // id should be a number
       id = null,
       domain = '',
       title = '',
@@ -48,12 +49,6 @@ export default class Room{
     let diff = +currentTimestamp - +this.liveStartAt;
     return diff/60 | 0;
   }
-
-  // getUrl(){
-  //   let perfix = ProviderUrlPerfix[this.provider];
-  //   let roomUrl = `${perfix}/${this.domain}`;
-  //   return roomUrl;
-  // }
 
   getRoomKey(){
     return `${this.provider}#${this.id}`;

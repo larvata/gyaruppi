@@ -97,7 +97,7 @@ export const parseScheduleTime = (timeString) => {
   return result;
 };
 
-export const showRoomNotification=async (room)=>{
+export const showRoomNotification = async (room)=>{
   let avatar64 = await getImageBase64(room.avatarUrl);
   let snapshot64 = await getImageBase64(room.snapshotUrl);
 

@@ -5,13 +5,14 @@ import {ROOM_STATUS} from '../common';
 const fetchRoomInfo = (room)=>{
   const requestPath = `http://live.bilibili.com/live/getInfo?roomid=${room.id}`;
   return new Promise((resolve, reject)=>{
-    request.get(requestPath).set('Accept', 'application/json').end((err, res)=>{
+    request.get(requestPath).end((err, res)=>{
       if (err) {
         reject(err);
       }
       else{
-
         try {
+          // live/getInfo responsed without content-type: text/json
+          // superagent cannot parse it automatically
           let parsed = JSON.parse(res.text);
           if (parsed && parsed.code === 0) {
             let {data} = parsed;
@@ -27,32 +28,21 @@ const fetchRoomInfo = (room)=>{
             room.follows = data.FANS_COUNT;
             room.liveStartAt = data.LIVE_TIMELINE;
             room.status = status;
-
             room.roomUrl = `http://live.bilibili.com/${room.id}`;
 
-            return resolve(room);
-
-            // todo
-            // bili user api require the referer that cant be set at browser site
-            // disable the avatar until find the better implement
-            //
-            // complete user info
-            const userInfoPath = 'http://space.bilibili.com/ajax/member/GetInfo';
-            const postReferer = `http://space.bilibili.com/${data.MASTERID}/`;
+            // fetch user avatar url from another api
+            const userInfoPath = `http://api.live.bilibili.com/AppRoom/index?platform=ios&room_id=${room.id}`;
             request
-              .post(userInfoPath)
-              .set('Referer', postReferer)
-              .send({mid: data.MASTERID})
+              .get(userInfoPath)
               .end((err, res)=>{
                 if (err) {
                   reject(err);
                 }
                 else{
-                  let parsed = JSON.parse(res.text);
-                  const {data} = parsed;
-                  if (data && parsed.status === true) {
-                    // let {data} = parsed;
+                  const {data} = res.body;
+                  if (data && parsed.code === 0) {
                     room.avatarUrl = data.face;
+                    room.online = data.online;
                   }
                 }
                 resolve(room);
@@ -60,7 +50,7 @@ const fetchRoomInfo = (room)=>{
           }
         }
         catch(e){
-          console.log(res.text);
+          console.log('[BILIBILI FETCHER]Failed on parsing room info: ', res.text);
           reject(e);
         }
 

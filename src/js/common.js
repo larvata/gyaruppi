@@ -1,7 +1,8 @@
 export const PROVIDER = {
   ZHANQI: 'zhanqi',
   DOUYU: 'douyu',
-  BILIBILI: 'bilibili'
+  BILIBILI: 'bilibili',
+  PANDA: 'panda'
 };
 
 export const MESSAGE = {
