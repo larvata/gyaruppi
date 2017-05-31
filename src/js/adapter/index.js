@@ -1,6 +1,7 @@
 import zhanqi from './zhanqi';
 import bilibili from './bilibili';
 import panda from './panda';
+import douyu from './douyu';
 import { PROVIDER } from '../common';
 
 export function fetchRoomInfo(room){
@@ -16,9 +17,9 @@ export function fetchRoomInfo(room){
   else if(room.provider === PROVIDER.PANDA) {
     adapter = panda;
   }
-  // else if(provider === PROVIDER.DOUYU){
-
-  // }
+  else if(room.provider === PROVIDER.DOUYU){
+    adapter = douyu;
+  }
 
   if (adapter === null) {
     throw new Error('Can\'t find adapter for ' + room.provider);

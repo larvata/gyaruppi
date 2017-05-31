@@ -35,7 +35,6 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 });
 
 // main entry
-// load data
 (async ()=>{
   ApplicationManager.onRoomStatusChanges = (room) => {
     if (room.status === ROOM_STATUS.ONLINE) {
@@ -61,6 +60,7 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
     showScheduleNotifaction(schedules);
   };
 
+  // kick start the app
   await ApplicationManager.initialize();
   await ApplicationManager.startMiichanWorker();
   ApplicationManager.startRoomWorker();

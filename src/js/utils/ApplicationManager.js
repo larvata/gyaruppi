@@ -79,6 +79,12 @@ class ApplicationManager{
         this.onNotificationClicked(room);
       }
     });
+
+    // check and update the idle state
+    this.idleState = chrome.idle.IdleState.ACTIVE;
+    chrome.idle.onStateChanged.addListener((state) => {
+      this.idleState = state;
+    });
   }
 
   // rehydrate customRooms data to Room object from localstorage
@@ -191,6 +197,14 @@ class ApplicationManager{
   }
 
   async _fetchAllRoom(){
+    console.log('begin _fetchAllRoom, current state:', this.idleState);
+
+    if (this.idleState !== chrome.idle.IdleState.ACTIVE) {
+      console.log('not actieve');
+      return;
+    }
+
+    console.log('start fetchRoomInfo');
     let promises = this.customRooms.filter(cr => cr.enabled).map(r=>this._fetchSingleRoom(r));
 
     for( let promise of promises){
@@ -204,9 +218,13 @@ class ApplicationManager{
     setInterval(::this._fetchMiichan, MIICHAN_INTERVAL);
   }
 
-  async startRoomWorker(){
+  startRoomWorker(){
     this._fetchAllRoom();
-    setInterval(::this._fetchAllRoom, ROOM_INTERVAL);
+    this.fetchAllTimer = setInterval(::this._fetchAllRoom, ROOM_INTERVAL);
+  }
+
+  stopRoomWorker() {
+    clearInterval(this.fetchAllTimer);
   }
 
   getCustomRooms(){

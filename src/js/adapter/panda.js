@@ -32,8 +32,6 @@ const fetchRoomInfo = (room)=>{
 
           room.roomUrl = `http://www.panda.tv/${room.id}`;
 
-          console.log(room);
-
           resolve(room);
         }
         else {

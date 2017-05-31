@@ -10,11 +10,13 @@
     "default_title":"gyaruppi"
   },
   "permissions":[
+    "idle",
     "storage",
     "notifications",
     "contextMenus",
     "http://*.hdslb.com/*",
-    "http://*.pdim.gs/*"
+    "http://*.pdim.gs/*",
+    "https://*.douyucdn.cn/*"
   ],
   "icons":{
     "128":"images/gako.png"
@@ -29,6 +31,10 @@
         "http://*.bilibili.com/*",
         "https://*.bilibili.com/*",
         "http://*.panda.tv/*",
+        "http://*.douyu.com/*",
+        "https://*.douyu.com/*",
+        "http://*.douyutv.com/*",
+        "https://*.douyutv.com/*",
         "https://www.showroom-live.com/*"
       ],
       "js": [
@@ -41,6 +47,7 @@
     "site_addons/bilibili_inject.js",
     "site_addons/panda_inject.js",
     "site_addons/showroom_inject.js",
+    "site_addons/douyu_inject.js",
     "images/profile.png"
   ],
   "homepage_url": "https://live.haruppi.top/",
