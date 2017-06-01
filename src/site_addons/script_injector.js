@@ -6,7 +6,7 @@ var supportedSites = {
   'www.showroom-live.com': 'site_addons/showroom_inject.js'
 };
 
-if (supportedSites.hasOwnProperty(location.host)) {
+if (supportedSites.hasOwnProperty(location.host) && location.pathname !== '/') {
   var updateGlobalCustomRoomsData = function(customRooms){
     window.__gyaruppi.customRooms = customRooms;
   };
