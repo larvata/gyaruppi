@@ -42,7 +42,6 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
     }
     else if(room.status === ROOM_STATUS.OFFLINE){
       const roomKey = room.getRoomKey();
-      console.log('try to clear the room notifications:', roomKey);
       chrome.notifications.clear(roomKey);
     }
   };

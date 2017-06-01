@@ -129,6 +129,10 @@ class ApplicationManager{
   }
 
   async _fetchMiichan(){
+    if (this.idleState !== chrome.idle.IdleState.ACTIVE) {
+      return;
+    }
+
     let url = this._getMiichanUrl();
     try {
       let res = await request.post(url).send({
@@ -197,20 +201,15 @@ class ApplicationManager{
   }
 
   async _fetchAllRoom(){
-    console.log('begin _fetchAllRoom, current state:', this.idleState);
-
     if (this.idleState !== chrome.idle.IdleState.ACTIVE) {
-      console.log('not actieve');
       return;
     }
 
-    console.log('start fetchRoomInfo');
     let promises = this.customRooms.filter(cr => cr.enabled).map(r=>this._fetchSingleRoom(r));
 
     for( let promise of promises){
       await promise;
     }
-    // console.log('batch fetch rooms done.');
   }
 
   async startMiichanWorker(){

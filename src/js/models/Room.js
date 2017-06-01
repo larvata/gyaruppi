@@ -1,9 +1,5 @@
 import {ROOM_STATUS} from '../common';
 
-// const ProviderUrlPerfix = {
-//   zhanqi: 'http://www.zhanqi.tv'
-// };
-
 export default class Room{
   constructor({
       provider = null,

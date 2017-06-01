@@ -125,7 +125,7 @@ export default class Options extends React.Component {
 
     return (
       <div style={{paddingLeft: '250px'}}>
-        <div style={{width: '500px'}}>
+        <div style={{width: '560px'}}>
           <List>
             <ListItem
               primaryText="清空设定"
@@ -150,14 +150,14 @@ export default class Options extends React.Component {
           <List>
             <ListItem
               primaryText="体验功能"
-              secondaryText="目前仅支持战旗和哔哩哔哩"
+              secondaryText=""
               disabled={true}
             />
           </List>
           <List>
             <ListItem
-              primaryText="自定义直播间"
-              secondaryText="通过直播间页面的订阅按钮🔔将该直播间加入通知列表"
+              primaryText="自定义直播间通知"
+              secondaryText="通过直播间标题前的🔔按钮订阅开播通知，目前支持 战旗 斗鱼 熊猫 bilibili"
               leftCheckbox={<Checkbox checked={allowInjectSubscribeButtonScript} onCheck={this._injectSubscribeClickHandler}/>} />
           </List>
         </div>
@@ -168,6 +168,9 @@ export default class Options extends React.Component {
   _renderAbout(){
     const changelog =
 `
+1.1.0
+- 新增: 新增斗鱼 熊猫 通知支持
+- 修复: 修复战旗通知
 1.0.10:
 - 修复: 无法通过插件进入战旗房间的问题
 1.0.9:
@@ -187,10 +190,10 @@ export default class Options extends React.Component {
             src="images/profile.png"
             size={128}
           />
-          <div><span>gyaruppi {currentVersion}</span></div>
+          <div><span><a href="https://github.com/larvata/gyaruppi">gyaruppi</a> {currentVersion}</span></div>
           <div><a href="https://live.haruppi.top/">48系番组直播间</a></div>
           <p>
-            <span>意见反馈</span><a href="http://weibo.com/u/5593301047">兒玉遥应援会</a>
+            <a href="http://weibo.com/alzzl">意见反馈</a>
           </p>
           <div>
             <textarea style={{width: '350px', height: '264px','fontSize': 'medium'}} value={changelog} />

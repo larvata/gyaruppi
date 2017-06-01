@@ -102,3 +102,12 @@ html {
 .channel .item.online.panda:hover{
   background-color: #1EDA8D;
 }
+
+.channel .item.online.douyu{
+  color: white;
+  background-color: #ff630e;
+}
+
+.channel .item.online.douyu:hover{
+  background-color: #FF7D28;
+}

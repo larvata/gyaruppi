@@ -1,5 +1,11 @@
 // init scribe state
-var currentRoomId = window.location.pathname.match(/\d+/)[0];
+var matches = window.location.pathname.match(/\d+/);
+if (!matches) {
+  // not a room page
+  return;
+}
+
+var currentRoomId = matches[0];
 var currentRoomProvider = 'douyu';
 var currentRoomTitle = document.querySelector('.headline h1').innerText;
 var subscribed = false;
