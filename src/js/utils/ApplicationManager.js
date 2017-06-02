@@ -6,6 +6,7 @@ import { localStorage } from '../utils/storage';
 import Room from '../models/Room';
 import { fetchRoomInfo } from '../adapter';
 import { ROOM_STATUS } from '../common';
+import { version } from '../../../package.json';
 
 const request = superagentPromisePlugin.patch(superagent);
 const API_SERVER = defaultConfig.API_SERVER;
@@ -135,9 +136,20 @@ class ApplicationManager{
 
     let url = this._getMiichanUrl();
     try {
+      // generate post body
+      const usage = this.customRooms.reduce((a, b) => {
+        if(b.isStockRoom){
+          return a;
+        }
+        a[b.provider] = a[b.provider] + 1;
+        return a;
+      }, {bilibili:0,douyu:0,panda:0,zhanqi:0});
+
       let res = await request.post(url).send({
         stockRoomsVersion: this.stockRoomsVersion,
-        schedulesVersion: this.schedulesVersion
+        schedulesVersion: this.schedulesVersion,
+        version,
+        usage
       });
       let { body } = res;
 

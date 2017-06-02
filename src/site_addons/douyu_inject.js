@@ -1,6 +1,6 @@
 // init scribe state
-var matches = window.location.pathname.match(/\d+/);
-var currentRoomId = matches[0];
+var matches = window.location.pathname.match(/\/(\d+|\S+)/);
+var currentRoomId = matches[1];
 var currentRoomProvider = 'douyu';
 var currentRoomTitle = document.querySelector('.headline h1').innerText;
 var subscribed = false;
