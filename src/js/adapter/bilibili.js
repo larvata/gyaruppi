@@ -42,7 +42,15 @@ const fetchRoomInfo = (room)=>{
                   const {data} = res.body;
                   if (data && parsed.code === 0) {
                     room.avatarUrl = data.face;
-                    room.online = data.online;
+
+                    // bilibili will not update the online count after the live end
+                    // manually change it to 0 when the live is off
+                    if (status === ROOM_STATUS.ONLINE) {
+                      room.online = data.online;
+                    }
+                    else {
+                      room.online = 0;
+                    }
                   }
                 }
                 resolve(room);

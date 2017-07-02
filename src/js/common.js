@@ -2,7 +2,8 @@ export const PROVIDER = {
   ZHANQI: 'zhanqi',
   DOUYU: 'douyu',
   BILIBILI: 'bilibili',
-  PANDA: 'panda'
+  PANDA: 'panda',
+  SHOWROOM: 'showroom'
 };
 
 export const MESSAGE = {

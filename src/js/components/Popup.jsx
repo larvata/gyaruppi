@@ -115,12 +115,14 @@ export default class Popup extends React.Component {
       let altText = `关注人数: ${room.follows}`;
       // let roomUrl = room.getUrl();
       return (
+        <span className={itemClass}>
         <a
-          className={itemClass}
+          // className={itemClass}
           key={roomKey}
           title={altText}
           onClick={this._roomItemClickHandler.bind(this, room.roomUrl)}
         >{displayTitle}</a>
+        </span>
       );
     });
 

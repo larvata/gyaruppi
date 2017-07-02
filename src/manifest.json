@@ -35,7 +35,7 @@
         "https://*.douyu.com/*",
         "http://*.douyutv.com/*",
         "https://*.douyutv.com/*",
-        "https://www.showroom-live.com/*"
+        "https://*.showroom-live.com/*"
       ],
       "js": [
         "site_addons/script_injector.js"
@@ -48,6 +48,7 @@
     "site_addons/panda_inject.js",
     "site_addons/showroom_inject.js",
     "site_addons/douyu_inject.js",
+    "site_addons/hls.js",
     "images/profile.png"
   ],
   "homepage_url": "https://live.haruppi.top/",

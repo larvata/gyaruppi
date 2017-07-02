@@ -44,6 +44,7 @@ export default class Options extends React.Component {
 
     this._resetAllSettingsHandler = this._resetAllSettingsHandler.bind(this);
     this._injectSubscribeClickHandler = this._injectSubscribeClickHandler.bind(this);
+    this._enableDesktopNotificationClickHandler = this._enableDesktopNotificationClickHandler.bind(this);
   }
 
   _getDataFromBackgroundPage(){
@@ -92,9 +93,17 @@ export default class Options extends React.Component {
     this.setState({ settings });
   }
 
+  _enableDesktopNotificationClickHandler(){
+    let { enableDesktopNotification } = this.state.settings;
+    enableDesktopNotification = !enableDesktopNotification;
+    ApplicationManager.updateSettings({enableDesktopNotification});
+    const settings = ApplicationManager.getAllSettings();
+    this.setState({ settings });
+  }
+
   _renderSettings(){
     const { customRooms, settings } = this.state;
-    const { allowInjectSubscribeButtonScript } = settings;
+    const { allowInjectSubscribeButtonScript, enableDesktopNotification } = settings;
     const roomList = customRooms.map(ar => {
       let rightToggle = null;
       let rightButton = null;
@@ -129,10 +138,30 @@ export default class Options extends React.Component {
           <List>
             <ListItem
               primaryText="清空设定"
-              secondaryText="插件出现故障时使用"
+              secondaryText="仅在插件出现故障时使用"
               disabled={true}
               rightIconButton={<RaisedButton primary={false} label="重置" onClick={this._resetAllSettingsHandler}/>}
             />
+          </List>
+          <Divider />
+
+          <List>
+            <ListItem
+              primaryText="桌面通知"
+              secondaryText="直播间开播时弹出桌面通知"
+              leftCheckbox={
+                <Checkbox
+                  checked={enableDesktopNotification}
+                  onCheck={this._enableDesktopNotificationClickHandler}
+                />
+              }
+            />
+            <ListItem
+              primaryText="自定义直播间通知"
+              secondaryText="支持战旗, 斗鱼, 熊猫, bilibili, Showroom"
+              leftCheckbox={<Checkbox checked={allowInjectSubscribeButtonScript}
+              onCheck={this._injectSubscribeClickHandler}/>}
+              />
           </List>
           <Divider />
 
@@ -147,19 +176,6 @@ export default class Options extends React.Component {
             {roomList}
           </List>
           <Divider />
-          <List>
-            <ListItem
-              primaryText="体验功能"
-              secondaryText=""
-              disabled={true}
-            />
-          </List>
-          <List>
-            <ListItem
-              primaryText="自定义直播间通知"
-              secondaryText="通过直播间标题前的🔔按钮订阅开播通知，目前支持 战旗 斗鱼 熊猫 bilibili"
-              leftCheckbox={<Checkbox checked={allowInjectSubscribeButtonScript} onCheck={this._injectSubscribeClickHandler}/>} />
-          </List>
         </div>
       </div>
     );

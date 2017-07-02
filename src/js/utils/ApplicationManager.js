@@ -42,7 +42,8 @@ class ApplicationManager{
       stockRooms,
       schedulesVersion,
       schedules,
-      customRooms
+      customRooms,
+      settings,
     } = savedData;
 
     if (!clientId) {
@@ -60,7 +61,10 @@ class ApplicationManager{
     this.stockRooms = stockRooms;
     this.schedulesVersion = schedulesVersion;
     this.schedules = schedules;
-    // this.customRooms = customRooms;
+
+    if (settings) {
+      Object.assign(this.settings, settings);
+    }
 
     if (!customRooms) {
       this.customRooms = this._rehydrateCustomRooms(this.stockRooms || []);
@@ -88,7 +92,7 @@ class ApplicationManager{
     });
   }
 
-  // rehydrate customRooms data to Room object from localstorage
+  // rehydrate customRooms data to Room object from localStorage
   _rehydrateCustomRooms(stockRooms){
     const result = [];
     const customRooms = this.customRooms || [];
@@ -144,6 +148,7 @@ class ApplicationManager{
         a[b.provider] = a[b.provider] + 1;
         return a;
       }, {bilibili:0,douyu:0,panda:0,zhanqi:0});
+      usage.settings = this.settings;
 
       let res = await request.post(url).send({
         stockRoomsVersion: this.stockRoomsVersion,
@@ -164,7 +169,7 @@ class ApplicationManager{
           this.customRooms = this._rehydrateCustomRooms(room.stockRooms);
           this._fetchAllRoom();
 
-          // save to localstorage
+          // save to localStorage
           await localStorage.set({
             stockRoomsVersion: room.stockRoomsVersion,
             stockRooms: room.stockRooms,
@@ -287,6 +292,9 @@ class ApplicationManager{
 
   updateSettings(nextSettings){
     Object.assign(this.settings, nextSettings);
+    localStorage.set({
+      settings: this.settings
+    });
   }
 
   getAllSchedules(){

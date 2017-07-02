@@ -37,7 +37,8 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 // main entry
 (async ()=>{
   ApplicationManager.onRoomStatusChanges = (room) => {
-    if (room.status === ROOM_STATUS.ONLINE) {
+    const { enableDesktopNotification } = ApplicationManager.getAllSettings();
+    if (enableDesktopNotification && room.status === ROOM_STATUS.ONLINE) {
       showRoomNotification(room);
     }
     else if(room.status === ROOM_STATUS.OFFLINE){

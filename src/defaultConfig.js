@@ -7,8 +7,8 @@ export default {
 
   initial: {
     settings: {
-      showRoomNotification: true,
-      showScheduleNotifaction: true,
+      enableDesktopNotification: true,
+      enableScheduleNotifaction: true,
       allowInjectSubscribeButtonScript: true,
       allowInjectRemoveAdsScript: false
     }

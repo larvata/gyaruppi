@@ -45,7 +45,7 @@ window.addEventListener('message', function(event){
           window.postMessage({
             type: currentMessageType,
             message: {
-              provider: 'zhanqi',
+              provider: currentRoomProvider,
               roomId: currentRoomId,
               title: currentRoomTitle
             }

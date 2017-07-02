@@ -36,7 +36,7 @@ window.addEventListener('message', function(event){
         window.postMessage({
           type: currentMessageType,
           message: {
-            provider: 'bilibili',
+            provider: currentRoomProvider,
             roomId: currentRoomId,
             title: currentRoomTitle
           }

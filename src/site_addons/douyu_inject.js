@@ -37,7 +37,7 @@ window.addEventListener('message', function(event){
         window.postMessage({
           type: currentMessageType,
           message: {
-            provider: 'douyu',
+            provider: currentRoomProvider,
             roomId: currentRoomId,
             title: currentRoomTitle
           }

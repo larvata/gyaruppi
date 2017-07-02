@@ -111,3 +111,20 @@ html {
 .channel .item.online.douyu:hover{
   background-color: #FF7D28;
 }
+
+
+.channel span.item.online.showroom {
+  background-color: #263238;
+}
+
+.channel span.item.online.showroom:hover {
+  background-color: #404C52;
+}
+
+.channel .item.online.showroom a{
+  color: white;
+  font-weight: bold;
+  background: linear-gradient(90deg,#EB8B2D,#FFDA1A,#9EC850,#15A748,#4DC0E3,#3B6CA7,#925E98,#E15487);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}

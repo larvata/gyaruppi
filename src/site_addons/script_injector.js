@@ -3,7 +3,10 @@ var supportedSites = {
   'live.bilibili.com': 'site_addons/bilibili_inject.js',
   'www.panda.tv': 'site_addons/panda_inject.js',
   'www.douyu.com': 'site_addons/douyu_inject.js',
-  'www.showroom-live.com': 'site_addons/showroom_inject.js'
+  'www.showroom-live.com': [
+    'site_addons/showroom_inject.js',
+    'site_addons/hls.js'
+  ]
 };
 
 if (supportedSites.hasOwnProperty(location.host) && location.pathname !== '/') {
@@ -14,9 +17,17 @@ if (supportedSites.hasOwnProperty(location.host) && location.pathname !== '/') {
     return window.__gyaruppi.customRooms || [];
   };
 
-  var getInjectScriptUrl = function(){
-    var script = supportedSites[location.host];
-    return chrome.extension.getURL(script);
+  // var getInjectScriptUrl = function(){
+  //   var script = supportedSites[location.host];
+  //   return chrome.extension.getURL(script);
+  // };
+
+  var getInjectScripts = function(){
+    var scripts = [].concat(supportedSites[location.host]);
+    var scriptUrls = scripts.map(function(s){
+      return chrome.extension.getURL(s);
+    });
+    return scriptUrls;
   };
 
   window.addEventListener('message', function(event){
@@ -78,12 +89,24 @@ if (supportedSites.hasOwnProperty(location.host) && location.pathname !== '/') {
     window.__gyaruppi = {};
     updateGlobalCustomRoomsData(customRooms);
 
-    var s = document.createElement('script');
-    s.src = getInjectScriptUrl();
-    s.onload = function() {
-      this.parentNode.removeChild(this);
-    };
-    (document.head || document.documentElement).appendChild(s);
+    var scripts = getInjectScripts();
+    scripts.forEach(function(scriptUrl){
+      var s = document.createElement('script');
+      s.src = scriptUrl;
+      console.log(scriptUrl);
+      s.onload = function(){
+        // this.parentNode.removeChild(this);
+      };
+      (document.head || document.documentElement).appendChild(s);
+    });
+
+    // var s = document.createElement('script');
+    // s.src = getInjectScriptUrl();
+    // s.onload = function() {
+    //   this.parentNode.removeChild(this);
+    // };
+    // (document.head || document.documentElement).appendChild(s);
+
   });
 }
 
