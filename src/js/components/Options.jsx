@@ -42,7 +42,7 @@ export default class Options extends React.Component {
     };
     this.state = state;
 
-    this._resetAllSettingsHandler = this._resetAllSettingsHandler.bind(this);
+    // this._resetAllSettingsHandler = this._resetAllSettingsHandler.bind(this);
     this._injectSubscribeClickHandler = this._injectSubscribeClickHandler.bind(this);
     this._enableDesktopNotificationClickHandler = this._enableDesktopNotificationClickHandler.bind(this);
   }
@@ -132,19 +132,26 @@ export default class Options extends React.Component {
       );
     });
 
+          // <List>
+          //   <ListItem
+          //     primaryText="清空设定"
+          //     secondaryText="仅在插件出现故障时使用"
+          //     disabled={true}
+          //     rightIconButton={<RaisedButton primary={false} label="重置" onClick={this._resetAllSettingsHandler}/>}
+          //   />
+          // </List>
+          // <Divider />
+
     return (
       <div style={{paddingLeft: '250px'}}>
         <div style={{width: '560px'}}>
           <List>
             <ListItem
-              primaryText="清空设定"
-              secondaryText="仅在插件出现故障时使用"
+              primaryText="通知选项"
+              secondaryText=""
               disabled={true}
-              rightIconButton={<RaisedButton primary={false} label="重置" onClick={this._resetAllSettingsHandler}/>}
             />
           </List>
-          <Divider />
-
           <List>
             <ListItem
               primaryText="桌面通知"
@@ -184,15 +191,28 @@ export default class Options extends React.Component {
   _renderAbout(){
     const changelog =
 `
+1.2.2
+- 修复: 房间按钮点击区域问题
+
+1.2.1
+- 修复: showroom无法使用flash播放器
+
+1.2.0
+- 新增: 支持showroom
+
 1.1.0
 - 新增: 新增斗鱼 熊猫 通知支持
 - 修复: 修复战旗通知
+
 1.0.10:
 - 修复: 无法通过插件进入战旗房间的问题
+
 1.0.9:
 - 修复: bilibili api更新
+
 1.0.8
 - 修复: 无法添加自定义房间
+
 1.0.7
 - 修复: 节目通知弹出窗口, 按本地时间修正修正播出时间
 - UI: 在内置番组直播间页面也显示通知按钮
@@ -201,19 +221,21 @@ export default class Options extends React.Component {
 
     return (
       <div style={{paddingLeft: '250px'}}>
-        <div style={{width:'300px', margin: '280px 40%', fontSize:'20px'}}>
+        <div style={{padding: '120px 0px 0 40px', fontSize:'20px'}}>
           <Avatar
             src="images/profile.png"
             size={128}
           />
-          <div><span><a href="https://github.com/larvata/gyaruppi">gyaruppi</a> {currentVersion}</span></div>
-          <div><a href="https://live.haruppi.top/">48系番组直播间</a></div>
+            {`48系番组直播间通知插件 ${currentVersion}`}
           <p>
-            <a href="http://weibo.com/alzzl">意见反馈</a>
+            意见反馈: <a href="https://weibo.com/alzzl">https://weibo.com/alzzl</a>
           </p>
-          <div>
-            <textarea style={{width: '350px', height: '264px','fontSize': 'medium'}} value={changelog} />
-          </div>
+
+          <div>Github Repo: <a href="https://github.com/larvata/gyaruppi">https://github.com/larvata/gyaruppi</a> </div>
+          <div>下载地址: <a href="https://live.haruppi.top/">https://live.haruppi.top/</a></div>
+        </div>
+        <div style={{ padding: '20px 30px'}}>
+          <textarea style={{width: '100%', height: '350px','fontSize': 'medium'}} value={changelog} />
         </div>
       </div>
     );
