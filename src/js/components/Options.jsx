@@ -191,6 +191,9 @@ export default class Options extends React.Component {
   _renderAbout(){
     const changelog =
 `
+1.2.3
+- 修复: showroom脚本失效
+
 1.2.2
 - 修复: 房间按钮点击区域问题
 

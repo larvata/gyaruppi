@@ -1,6 +1,8 @@
-var currentRoomId = window.SrGlobal.livedata.room.room_id;
+var initialDataString = document.querySelector('#js-initial-data').dataset.json;
+var initialData = JSON.parse(initialDataString);
+var currentRoomId = initialData.roomId;
 var currentRoomProvider = 'showroom';
-var currentRoomTitle = window.SrGlobal.livedata.room.room_name;
+var currentRoomTitle = initialData.roomName;
 var subscribed = false;
 
 // init event listener
@@ -78,7 +80,6 @@ gyaruppi.container = container;
 gyaruppi.updateComments = function(){
   var g = window.gyaruppi;
   var updateComments = g.updateComments;
-  var currentRoomId = window.SrGlobal.livedata.room.room_id;
   var list = document.querySelector('#room-comment-log-list');
 
   var url = 'https://www.showroom-live.com/api/live/comment_log?room_id=' + currentRoomId;
@@ -124,7 +125,7 @@ gyaruppi.updateComments = function(){
 };
 
 gyaruppi.playHLS = function(zoomRatio){
-  var hlsUrl = window.SrGlobal.livedata.streaming_url_hls;
+  var hlsUrl = initialData.streamingUrlHls;
   var g = window.gyaruppi;
   var video = g.video;
   var container = g.container;
@@ -156,7 +157,7 @@ gyaruppi.playHLS = function(zoomRatio){
 };
 
 // clear ui and hls video
-if (window.SrGlobal && window.SrGlobal.isLive) {
+if (initialData.isLive) {
   $('.footer-menu>ul').append('<li id="gyaruppi-hls10"><a><span style="font-size: 21px;display: block;">HLS</span>1x</a></li>');
   $('.footer-menu>ul').append('<li id="gyaruppi-hls15"><a><span style="font-size: 21px;display: block;">HLS</span>1.5x</a></li>');
   $('#gyaruppi-hls10').click(function(){
