@@ -191,6 +191,11 @@ export default class Options extends React.Component {
   _renderAbout(){
     const changelog =
 `
+1.2.4
+- 修复: bili无法使用的问题
+- 修复: 斗鱼部分房间无法使用的问题
+- 修复: 熊猫无法使用的问题
+
 1.2.3
 - 修复: showroom脚本失效
 
