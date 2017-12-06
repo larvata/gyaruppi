@@ -1,7 +1,11 @@
 // init scribe state
 var matches = window.location.pathname.match(/\/(t\/)?(\d+|\S+)/);
 var currentRoomId = matches[2];
+var urlType = matches[1];
 var currentRoomProvider = 'douyu';
+if (urlType === 't/') {
+  currentRoomId = document.querySelector('#container div[data-component-id="room"]').dataset['onlineid'];
+}
 var currentRoomTitle = document.querySelector('.headline h2').innerText;
 var subscribed = false;
 
