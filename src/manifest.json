@@ -14,9 +14,12 @@
     "storage",
     "notifications",
     "contextMenus",
-    "http://*.hdslb.com/*",
+    "https://*.hdslb.com/*",
     "http://*.pdim.gs/*",
-    "https://*.douyucdn.cn/*"
+    "https://*.douyucdn.cn/*",
+    "http://www.douyutv.com/*",
+    "http://api.m.panda.tv/*",
+    "https://api.m.panda.tv/*"
   ],
   "icons":{
     "128":"images/gako.png"
@@ -26,15 +29,11 @@
       "matches": [
         "https://live.haruppi.top/",
         "http://local.larvata.me/",
-        "http://*.zhanqi.tv/*",
         "https://*.zhanqi.tv/*",
-        "http://*.bilibili.com/*",
         "https://*.bilibili.com/*",
-        "http://*.panda.tv/*",
+        "https://*.panda.tv/*",
         "http://*.douyu.com/*",
         "https://*.douyu.com/*",
-        "http://*.douyutv.com/*",
-        "https://*.douyutv.com/*",
         "https://*.showroom-live.com/*"
       ],
       "js": [
