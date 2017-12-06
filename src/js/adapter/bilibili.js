@@ -3,54 +3,50 @@ import { htmlDecode } from '../utils';
 import {ROOM_STATUS} from '../common';
 
 const fetchRoomInfo = (room)=>{
-  const requestPath = `http://live.bilibili.com/live/getInfo?roomid=${room.id}`;
+  const roomBaseInfoUrl = `https://api.live.bilibili.com/AppRoom/index?device=phone&platform=ios&scale=3&build=10000&room_id=${room.id}`;
+  const roomLiveInfoUrl = `https://api.live.bilibili.com/room/v1/Room/get_info?room_id=${room.id}&from=room`;
+
   return new Promise((resolve, reject)=>{
-    request.get(requestPath).end((err, res)=>{
+    request.get(roomBaseInfoUrl).end((err, res)=>{
       if (err) {
         reject(err);
       }
       else{
         try {
-          // live/getInfo responsed without content-type: text/json
-          // superagent cannot parse it automatically
-          let parsed = JSON.parse(res.text);
-          if (parsed && parsed.code === 0) {
-            let {data} = parsed;
-
+          const { data, code } = res.body;
+          if (data && code === 0) {
             let status = ROOM_STATUS.OFFLINE;
-            if (data.LIVE_STATUS === 'LIVE') {
+            if (data.status === 'LIVE') {
               status = ROOM_STATUS.ONLINE;
             }
 
-            room.title = htmlDecode(data.ROOMTITLE);
-            room.snapshotUrl = data.COVER;
-            room.username = data.ANCHOR_NICK_NAME;
-            room.follows = data.FANS_COUNT;
-            room.liveStartAt = data.LIVE_TIMELINE;
+            room.title = htmlDecode(data.title);
+            room.snapshotUrl = data.cover;
+            room.username = data.uname;
+            room.follows = data.attention;
+            room.liveStartAt = data.schedule.start;
             room.status = status;
-            room.roomUrl = `http://live.bilibili.com/${room.id}`;
+            room.roomUrl = `https://live.bilibili.com/${data.show_room_id}`;
+            room.avatarUrl = data.m_face;
+
+            if (status === ROOM_STATUS.ONLINE) {
+              room.online = data.online;
+            }
+            else {
+              room.online = 0;
+            }
 
             // fetch user avatar url from another api
-            const userInfoPath = `http://api.live.bilibili.com/AppRoom/index?platform=ios&room_id=${room.id}`;
             request
-              .get(userInfoPath)
+              .get(roomLiveInfoUrl)
               .end((err, res)=>{
                 if (err) {
                   reject(err);
                 }
                 else{
-                  const {data} = res.body;
-                  if (data && parsed.code === 0) {
-                    room.avatarUrl = data.face;
-
-                    // bilibili will not update the online count after the live end
-                    // manually change it to 0 when the live is off
-                    if (status === ROOM_STATUS.ONLINE) {
-                      room.online = data.online;
-                    }
-                    else {
-                      room.online = 0;
-                    }
+                  const {data, code} = res.body;
+                  if (data && code === 0) {
+                    room.liveStartAt = new Date(data.live_time).getTime() / 1000;
                   }
                 }
                 resolve(room);

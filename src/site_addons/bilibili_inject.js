@@ -1,7 +1,8 @@
 // init scribe state
-var currentRoomId = window.ROOMID;
+var currentRoomId = window.BilibiliLive.ROOMID;
 var currentRoomProvider = 'bilibili';
-var currentRoomTitle = document.querySelector('.room-title').innerText;
+console.log('currentRoomId', currentRoomId);
+var currentRoomTitle = document.querySelector('.room-title').getAttribute('title');
 var subscribed = false;
 
 // init event listener
