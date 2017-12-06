@@ -1,8 +1,8 @@
 // init scribe state
-var matches = window.location.pathname.match(/\/(\d+|\S+)/);
-var currentRoomId = matches[1];
+var matches = window.location.pathname.match(/\/(t\/)?(\d+|\S+)/);
+var currentRoomId = matches[2];
 var currentRoomProvider = 'douyu';
-var currentRoomTitle = document.querySelector('.headline h1').innerText;
+var currentRoomTitle = document.querySelector('.headline h2').innerText;
 var subscribed = false;
 
 // init event listener
@@ -28,9 +28,10 @@ window.addEventListener('message', function(event){
       subscribeIcon.className = 'gyaruppi-subscribe';
       subscribeIcon.style.display = 'inline-block';
       subscribeIcon.style.verticalAlign = 'text-bottom';
+      subscribeIcon.style.float = 'left';
       subscribeIcon.innerHTML = bellImageEnabled + bellImageDisabled;
 
-      document.querySelector('.headline h1').firstChild.before(subscribeIcon);
+      document.querySelector('.headline h2').before(subscribeIcon);
       document.querySelector('.gyaruppi-subscribe').style.cursor = 'pointer';
       document.querySelector('.gyaruppi-subscribe').addEventListener('click', function(){
         var currentMessageType = subscribed ? 'unsubscribe' : 'subscribe';
