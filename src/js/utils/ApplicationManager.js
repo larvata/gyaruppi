@@ -147,7 +147,7 @@ class ApplicationManager{
         }
         a[b.provider] = a[b.provider] + 1;
         return a;
-      }, {bilibili:0,douyu:0,panda:0,zhanqi:0});
+      }, {bilibili:0,douyu:0,panda:0,zhanqi:0,showroom:0});
       usage.settings = this.settings;
 
       let res = await request.post(url).send({
