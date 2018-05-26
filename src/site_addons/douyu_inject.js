@@ -4,7 +4,17 @@ var currentRoomId = matches[2];
 var urlType = matches[1];
 var currentRoomProvider = 'douyu';
 if (urlType === 't/') {
-  currentRoomId = document.querySelector('#container div[data-component-id="room"]').dataset['onlineid'];
+  var roomList = window.location.search.match(/roomIndex=(\d+)/);
+  if (roomList) {
+    // roomlist
+    var roomIndex = roomList[1];
+    currentRoomId = document.querySelectorAll('.switchRoom-btn')[roomIndex].dataset['onlineid'];
+  }
+  else {
+    // normal alias room
+    currentRoomId = document.querySelector('#container div[data-component-id="room"]').dataset['onlineid'];
+  }
+
 }
 var currentRoomTitle = document.querySelector('.headline h2').innerText;
 var subscribed = false;

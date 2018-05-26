@@ -191,6 +191,10 @@ export default class Options extends React.Component {
   _renderAbout(){
     const changelog =
 `
+1.2.7
+- 修复: 斗鱼直播间状态
+- 修复: 战旗直播间状态
+
 1.2.5
 - 修复: bili偶尔无法使用的问题
 
