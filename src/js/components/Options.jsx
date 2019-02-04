@@ -191,6 +191,14 @@ export default class Options extends React.Component {
   _renderAbout(){
     const changelog =
 `
+1.2.10
+- hotfix: permission issue of pandatv
+
+1.2.9
+- 修复: 斗鱼直播间状态
+- 修复: 熊猫直播间状态
+- 清除无用权限
+
 1.2.7
 - 修复: 斗鱼直播间状态
 - 修复: 战旗直播间状态
@@ -243,7 +251,7 @@ export default class Options extends React.Component {
           />
             {`48系番组直播间通知插件 ${currentVersion}`}
           <p>
-            意见反馈: <a href="https://weibo.com/alzzl">https://weibo.com/alzzl</a>
+            意见反馈: alzzlnewtype@gmail.com
           </p>
 
           <div>Github Repo: <a href="https://github.com/larvata/gyaruppi">https://github.com/larvata/gyaruppi</a> </div>

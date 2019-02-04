@@ -123,7 +123,7 @@ export const showRoomNotification = async (room)=>{
     elapsedString = '刚刚开播';
   }
 
-  elapsedString += `\n当前观众: ${room.online}`;
+  elapsedString += `\n当前观众: ${room.online || '-'}`;
 
   let options = {
     type: 'basic',

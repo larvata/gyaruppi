@@ -111,7 +111,7 @@ export default class Popup extends React.Component {
       room.status === ROOM_STATUS.ONLINE && itemClassArray.push('online');
       let itemClass = itemClassArray.join(' ');
 
-      let displayTitle = `${room.title} (${room.online})`;
+      let displayTitle = `${room.title} (${room.online || '-'})`;
       let altText = `关注人数: ${room.follows}`;
       // let roomUrl = room.getUrl();
       return (

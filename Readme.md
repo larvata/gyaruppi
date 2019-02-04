@@ -7,3 +7,9 @@ this project is create by https://github.com/samuelsimoes/chrome-extension-webpa
 
 
 [Install from Chrome Web Store](https://chrome.google.com/webstore/detail/gyaruppi/ghnfiadioahomhmocmhgjhpmhcmcggjg?hl=en-US) 
+
+## Build
+
+```
+NODE_ENV=production npm run build
+```

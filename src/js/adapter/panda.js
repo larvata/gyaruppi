@@ -2,7 +2,7 @@ import request from 'superagent';
 import {ROOM_STATUS} from '../common';
 
 const fetchRoomInfo = (room)=>{
-  const requestPath = `http://api.m.panda.tv/ajax_get_liveroom_baseinfo?roomid=${room.id}`;
+  const requestPath = `https://api.m.panda.tv/ajax_get_liveroom_baseinfo?roomid=${room.id}`;
   return new Promise((resolve, reject)=>{
     request.get(requestPath).end((err, res)=>{
       if (err) {

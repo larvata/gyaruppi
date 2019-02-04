@@ -3,53 +3,54 @@ import {ROOM_STATUS} from '../common';
 // import md5 from 'blueimp-md5';
 
 const buildRequestUrl = (roomId) => {
-  // const API_KEY = 'bLFlashflowlad92';
-  // const tt = Math.round(new Date().getTime() / 60 / 1000);
-  // const signContent = [roomId, API_KEY, tt].join('');
-  // const signHash = md5(signContent);
-  return `https://apiv2.douyucdn.cn/live/room/info2/${roomId}?client_sys=android`;
+  return `https://www.douyu.com/betard/${roomId}`;
 };
+
+// const buildReferer = (roomId) => {
+//   return `https://www.douyu.com/${roomId}`;
+// };
 
 const fetchRoomInfo = (room)=>{
   const requestPath = buildRequestUrl(room.id);
+  // const referer = buildReferer(room.id);
   return new Promise((resolve, reject)=>{
-    request.get(requestPath).end((err, res)=>{
-      if (err && res.statusCode !== 403) {
-        reject(err);
-      }
-      else if (res.statusCode === 403) {
-        // reject({message: 'Error on request room info.'});
-        room.status = ROOM_STATUS.OFFLINE;
-        resolve(room);
-      }
-      else{
-        if (res.body.error === 0) {
-          let {data} = res.body;
+    request
+      .get(requestPath)
+      // .set('referer', referer)
+      .end((err, res)=>{
+        if (err && res.statusCode !== 403) {
+          reject(err);
+        }
+        else if (res.statusCode === 403) {
+          // reject({message: 'Error on request room info.'});
+          room.status = ROOM_STATUS.OFFLINE;
+          resolve(room);
+        }
+        else{
+          // console.log(res);
+          let { room: _room } = res.body;
           // const { hostinfo, roominfo } = data.info;
 
           let status = ROOM_STATUS.OFFLINE;
-          if (data.show_status === '1') {
+          if (_room.show_status === 1) {
             status = ROOM_STATUS.ONLINE;
           }
 
-          room.title = data.room_name;
-          room.snapshotUrl = data.vertical_src;
-          room.online = data.online || 0;
-          room.avatarUrl = data.owner_avatar;
-          room.username = data.nickname;
+          // TODO the online and the follows are trasported with wss
+          room.title = _room.room_name;
+          room.snapshotUrl = _room.room_pic.replace(/\/dy1$/, '');
+          room.online = 0;
+          room.avatarUrl = _room.avatar.big;
+          room.username = _room.nickname;
           room.follows = '无法获取';
-          room.liveStartAt = +data.show_time;
+          room.liveStartAt = +_room.show_time;
           room.status = status;
 
-          room.roomUrl = `https://www.douyu.com/${room.id}`;
+          room.roomUrl = _room.room_url;
 
           resolve(room);
         }
-        else {
-          reject({message: 'unexpected errorcode.'});
-        }
-      }
-    });
+      });
   });
 };
 
