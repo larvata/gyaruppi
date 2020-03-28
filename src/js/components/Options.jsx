@@ -109,9 +109,10 @@ export default class Options extends React.Component {
       let rightButton = null;
       let disabled = false;
 
-      if (ar.locked) {
-        disabled = true;
-      }
+      // now all stock room can be disabled
+      // if (ar.locked) {
+      //   disabled = true;
+      // }
 
       if (ar.isStockRoom) {
         rightToggle = (<Toggle toggled={ar.enabled} disabled={disabled} onToggle={this._roomToggleHandler.bind(this, {provider: ar.provider, id: ar.id})}/>);
@@ -165,7 +166,7 @@ export default class Options extends React.Component {
             />
             <ListItem
               primaryText="自定义直播间通知"
-              secondaryText="支持战旗, 斗鱼, 熊猫, bilibili, Showroom"
+              secondaryText="支持战旗, 斗鱼, bilibili, Showroom"
               leftCheckbox={<Checkbox checked={allowInjectSubscribeButtonScript}
               onCheck={this._injectSubscribeClickHandler}/>}
               />
@@ -191,6 +192,11 @@ export default class Options extends React.Component {
   _renderAbout(){
     const changelog =
 `
+1.3.0
+- 移除: 直播预告功能
+- 移除: 熊猫直播支持
+- 修复: 直播通知
+
 1.2.10
 - hotfix: permission issue of pandatv
 
@@ -250,12 +256,10 @@ export default class Options extends React.Component {
             size={128}
           />
             {`48系番组直播间通知插件 ${currentVersion}`}
-          <p>
-            意见反馈: alzzlnewtype@gmail.com
-          </p>
 
-          <div>Github Repo: <a href="https://github.com/larvata/gyaruppi">https://github.com/larvata/gyaruppi</a> </div>
-          <div>下载地址: <a href="https://live.haruppi.top/">https://live.haruppi.top/</a></div>
+
+          <div>问题反馈 <a target="__blank" href="https://github.com/larvata/gyaruppi/issues">https://github.com/larvata/gyaruppi/issues</a> </div>
+          <div>下载地址: <a target="__blank" href="https://chrome.google.com/webstore/detail/gyaruppi/ghnfiadioahomhmocmhgjhpmhcmcggjg">谷歌市场</a></div>
         </div>
         <div style={{ padding: '20px 30px'}}>
           <textarea style={{width: '100%', height: '350px','fontSize': 'medium'}} value={changelog} />

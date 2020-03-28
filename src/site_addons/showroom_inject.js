@@ -74,7 +74,7 @@ video.id = 'video';
 video.setAttribute('controls', true);
 gyaruppi.video = video;
 
-var container = document.querySelector('section.l-room-video');
+var container = document.querySelector('div.l-room-video');
 gyaruppi.container = container;
 
 gyaruppi.updateComments = function(){
@@ -124,49 +124,50 @@ gyaruppi.updateComments = function(){
   });
 };
 
-gyaruppi.playHLS = function(zoomRatio){
-  var hlsUrl = initialData.streamingUrlHls;
-  var g = window.gyaruppi;
-  var video = g.video;
-  var container = g.container;
+// gyaruppi.playHLS = function(zoomRatio){
+//   var hlsUrl = initialData.streamingUrlHls;
+//   var g = window.gyaruppi;
+//   var video = g.video;
+//   var container = g.container;
 
-  zoomRatio = zoomRatio || 1;
-  video.setAttribute('width', 640 * zoomRatio);
-  video.setAttribute('height', 360 * zoomRatio);
-  container.style.marginLeft = (-320 * zoomRatio) + 'px';
+//   zoomRatio = zoomRatio || 1;
+//   video.setAttribute('width', 640 * zoomRatio);
+//   video.setAttribute('height', 360 * zoomRatio);
+//   container.style.marginLeft = (-320 * zoomRatio) + 'px';
 
-  if (g.hls) {
-    return;
-  }
+//   if (g.hls) {
+//     return;
+//   }
 
-  // remove flash video control
-  document.querySelector('#js-room-video').remove();
-  container.appendChild(video);
+//   // remove flash video control
+//   document.querySelector('#js-room-video').remove();
+//   container.appendChild(video);
 
-  $('#js-avatar').hide();
-  $('#js-room-section').css('background-image', '');
+//   $('#js-avatar').hide();
+//   $('#js-room-section').css('background-image', '');
 
-  g.hls = new Hls();
-  g.hls.loadSource(hlsUrl);
-  g.hls.attachMedia(video);
-  g.hls.on(Hls.Events.MANIFEST_PARSED,function() {
-    video.play();
-  });
+//   g.hls = new Hls();
+//   g.hls.loadSource(hlsUrl);
+//   g.hls.attachMedia(video);
+//   g.hls.on(Hls.Events.MANIFEST_PARSED,function() {
+//     video.play();
+//   });
 
-  g.updateComments();
-};
+//   g.updateComments();
+// };
 
 // clear ui and hls video
-if (initialData.isLive) {
-  $('.footer-menu>ul').append('<li id="gyaruppi-hls10"><a><span style="font-size: 21px;display: block;">HLS</span>1x</a></li>');
-  $('.footer-menu>ul').append('<li id="gyaruppi-hls15"><a><span style="font-size: 21px;display: block;">HLS</span>1.5x</a></li>');
-  $('#gyaruppi-hls10').click(function(){
-    var g = window.gyaruppi;
-    g.playHLS();
-  });
+// the showroom official implement the hls, no need to apply this function any more.
+// if (initialData.isLive) {
+//   $('.footer-menu>ul').append('<li id="gyaruppi-hls10"><a><span style="font-size: 21px;display: block;">HLS</span>1x</a></li>');
+//   $('.footer-menu>ul').append('<li id="gyaruppi-hls15"><a><span style="font-size: 21px;display: block;">HLS</span>1.5x</a></li>');
+//   $('#gyaruppi-hls10').click(function(){
+//     var g = window.gyaruppi;
+//     g.playHLS();
+//   });
 
-  $('#gyaruppi-hls15').click(function(){
-    var g = window.gyaruppi;
-    g.playHLS(1.5);
-  });
-}
+//   $('#gyaruppi-hls15').click(function(){
+//     var g = window.gyaruppi;
+//     g.playHLS(1.5);
+//   });
+// }

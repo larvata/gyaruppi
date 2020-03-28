@@ -129,3 +129,9 @@ html {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.feedback {
+  text-align: right;
+  font-size: 14px;
+  margin: 2px;
+}

@@ -1,63 +1,44 @@
 import request from 'superagent';
-import { htmlDecode } from '../utils';
 import {ROOM_STATUS} from '../common';
 
+
 const fetchRoomInfo = (room)=>{
-  const roomBaseInfoUrl = `https://api.live.bilibili.com/AppRoom/index?device=phone&platform=ios&scale=3&build=10000&room_id=${room.id}`;
-  const roomLiveInfoUrl = `https://api.live.bilibili.com/room/v1/Room/get_info?room_id=${room.id}&from=room`;
+  const roomLiveInfoUrl = `https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id=${room.id}`;
 
   return new Promise((resolve, reject)=>{
-    request.get(roomBaseInfoUrl).end((err, res)=>{
+    request.get(roomLiveInfoUrl).end((err, res) => {
       if (err) {
         reject(err);
+        return;
       }
-      else{
-        try {
-          const { data, code } = res.body;
-          if (data && code === 0) {
-            let status = ROOM_STATUS.OFFLINE;
-            if (data.status === 'LIVE') {
-              status = ROOM_STATUS.ONLINE;
-            }
 
-            room.title = htmlDecode(data.title);
-            room.snapshotUrl = data.cover;
-            room.username = data.uname;
-            room.follows = data.attention;
-            room.liveStartAt = data.schedule.start;
-            room.status = status;
-            room.roomUrl = `https://live.bilibili.com/${data.show_room_id}`;
-            room.avatarUrl = data.m_face;
+      const { data, code } = res.body;
+      if (code !== 0 || !data) {
+        reject(new Error('bili api responsed error status.'));
+        return;
+      }
 
-            if (status === ROOM_STATUS.ONLINE) {
-              room.online = data.online;
-            }
-            else {
-              room.online = 0;
-            }
-
-            // fetch user avatar url from another api
-            request
-              .get(roomLiveInfoUrl)
-              .end((err, res)=>{
-                if (err) {
-                  reject(err);
-                }
-                else{
-                  const {data, code} = res.body;
-                  if (data && code === 0) {
-                    room.liveStartAt = new Date(data.live_time).getTime() / 1000;
-                  }
-                }
-                resolve(room);
-              });
-          }
-        }
-        catch(e){
-          console.log('[BILIBILI FETCHER]Failed on parsing room info: ', res.text);
-          reject(e);
+      try {
+        const { room_info, anchor_info } = data;
+        let status = ROOM_STATUS.OFFLINE;
+        if (room_info.live_status === 1) {
+          status = ROOM_STATUS.ONLINE;
         }
 
+        room.title = room_info.title;
+        room.snapshotUrl = room_info.cover;
+        room.username = anchor_info.base_info.uname;
+        room.follows = anchor_info.relation_info.attention;
+        room.liveStartAt = room_info.live_start_time;
+        room.status = status;
+        room.roomUrl = `https://live.bilibili.com/${room_info.room_id}`;
+        room.avatarUrl = anchor_info.base_info.face;
+        room.online = room_info.online;
+
+        resolve(room);
+      } catch (e) {
+        console.log('[BILIBILI FETCHER]Failed on parsing room info: ');
+        reject(e);
       }
     });
   });

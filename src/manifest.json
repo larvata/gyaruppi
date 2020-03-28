@@ -24,7 +24,6 @@
         "https://live.haruppi.top/",
         "https://*.zhanqi.tv/*",
         "https://*.bilibili.com/*",
-        "https://*.panda.tv/*",
         "https://*.douyu.com/*",
         "https://*.showroom-live.com/*"
       ],
@@ -36,10 +35,8 @@
   "web_accessible_resources": [
     "site_addons/zhanqi_inject.js",
     "site_addons/bilibili_inject.js",
-    "site_addons/panda_inject.js",
     "site_addons/showroom_inject.js",
     "site_addons/douyu_inject.js",
-    "site_addons/hls.js",
     "images/profile.png"
   ],
   "homepage_url": "https://live.haruppi.top/",

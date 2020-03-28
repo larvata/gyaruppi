@@ -1,56 +1,48 @@
 import request from 'superagent';
 import {ROOM_STATUS} from '../common';
-// import md5 from 'blueimp-md5';
 
-const buildRequestUrl = (roomId) => {
-  return `https://www.douyu.com/betard/${roomId}`;
-};
 
-// const buildReferer = (roomId) => {
-//   return `https://www.douyu.com/${roomId}`;
-// };
+const fetchRoomInfo = (room) => {
+  const requestPath = `https://www.douyu.com/betard/${room.id}`;
 
-const fetchRoomInfo = (room)=>{
-  const requestPath = buildRequestUrl(room.id);
-  // const referer = buildReferer(room.id);
-  return new Promise((resolve, reject)=>{
-    request
-      .get(requestPath)
-      // .set('referer', referer)
-      .end((err, res)=>{
-        if (err && res.statusCode !== 403) {
-          reject(err);
+  return new Promise((resolve, reject) => {
+    request.get(requestPath).end((err, res) => {
+      if (err) {
+        reject(err);
+        return;
+      }
+
+      try {
+        let { body } = res;
+
+        if (body === null) {
+          // some the resbody is empty dont know why
+          body = JSON.parse(res.text);
         }
-        else if (res.statusCode === 403) {
-          // reject({message: 'Error on request room info.'});
-          room.status = ROOM_STATUS.OFFLINE;
-          resolve(room);
+
+        const { room: roomInfo } = body;
+
+        let status = ROOM_STATUS.OFFLINE;
+        if (roomInfo.show_status === 1) {
+          status = ROOM_STATUS.ONLINE;
         }
-        else{
-          // console.log(res);
-          let { room: _room } = res.body;
-          // const { hostinfo, roominfo } = data.info;
 
-          let status = ROOM_STATUS.OFFLINE;
-          if (_room.show_status === 1) {
-            status = ROOM_STATUS.ONLINE;
-          }
+        room.title = roomInfo.room_name;
+        room.snapshotUrl = roomInfo.room_pic;
+        room.username = roomInfo.nickname;
+        room.follows = '无法获取';
+        room.liveStartAt = roomInfo.show_time;
+        room.status = status;
+        room.roomUrl = roomInfo.room_url;
+        room.avatarUrl = roomInfo.avatar.big;
+        room.online = 0;
 
-          // TODO the online and the follows are trasported with wss
-          room.title = _room.room_name;
-          room.snapshotUrl = _room.room_pic.replace(/\/dy1$/, '');
-          room.online = 0;
-          room.avatarUrl = _room.avatar.big;
-          room.username = _room.nickname;
-          room.follows = '无法获取';
-          room.liveStartAt = +_room.show_time;
-          room.status = status;
-
-          room.roomUrl = _room.room_url;
-
-          resolve(room);
-        }
-      });
+        resolve(room);
+      } catch (e) {
+        console.log('[DOUYU FETCHER]Failed on parsing room info: ');
+        reject(e);
+      }
+    });
   });
 };
 

@@ -3,10 +3,7 @@ var supportedSites = {
   'live.bilibili.com': 'site_addons/bilibili_inject.js',
   'www.panda.tv': 'site_addons/panda_inject.js',
   'www.douyu.com': 'site_addons/douyu_inject.js',
-  'www.showroom-live.com': [
-    'site_addons/showroom_inject.js',
-    'site_addons/hls.js'
-  ]
+  'www.showroom-live.com': 'site_addons/showroom_inject.js',
 };
 
 if (supportedSites.hasOwnProperty(location.host) && location.pathname !== '/') {

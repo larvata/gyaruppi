@@ -62,6 +62,9 @@ chrome.runtime.onMessage.addListener((request, sender, response) => {
 
   // kick start the app
   await ApplicationManager.initialize();
-  await ApplicationManager.startMiichanWorker();
+
+  // miichan schedule is offline forever
+  // await ApplicationManager.startMiichanWorker();
+
   ApplicationManager.startRoomWorker();
 })();

@@ -1,25 +1,17 @@
 // init scribe state
-var matches = window.location.pathname.match(/\/(t\/)?(\d+|\S+)/);
+var matches = window.location.pathname.match(/\/(topic\/)?(\d+|\S+)/);
 var currentRoomId = matches[2];
 var urlType = matches[1];
 var currentRoomProvider = 'douyu';
 var currentRoomTitle = '';
 var probSelector = '.Title-followNum';
-var roomTitleSelector = '.Title-headlineH2';
+var roomTitleSelector = '.Title-header';
 var postLoadingInterval = -1;
 
-if (urlType === 't/') {
-  probSelector = '.follow-btn';
-  roomTitleSelector = '.headline h2';
-  var roomList = window.location.search.match(/roomIndex=(\d+)/);
-  if (roomList) {
-    // roomlist
-    var roomIndex = roomList[1];
-    currentRoomId = document.querySelectorAll('.switchRoom-btn')[roomIndex].dataset['onlineid'];
-  }
-  else {
-    // normal alias room
-    currentRoomId = document.querySelector('#container div[data-component-id="room"]').dataset['onlineid'];
+if (urlType === 'topic/') {
+  var ridParts = window.location.search.match(/rid=(\d+)/);
+  if (ridParts) {
+    currentRoomId = ridParts[1];
   }
 }
 
@@ -55,7 +47,13 @@ window.addEventListener('message', function(event){
       // douyu will modify the title dom so the icon we added will be cleared
       // add an interval timer to wait the post load done and then add our alerm icon
       postLoadingInterval = setInterval(() => {
-        const prob = document.querySelector(probSelector).innerText;
+        const probe = document.querySelector(probSelector);
+        if (!probe) {
+          // prob element is not exists
+          return;
+        }
+
+        const prob = probe.innerText;
         if (!prob) {
           return;
         }

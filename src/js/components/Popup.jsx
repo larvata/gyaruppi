@@ -73,22 +73,27 @@ export default class Popup extends React.Component {
       const currentRoom = allRoomsInfo.find(r=>r.id === schedule.roomId) || {alias: ''};
 
       return (
-        <div className="item" key={index}>
-          <div>
-            <span className="datetime">
-              <span className="date">
-                {dateString}
-              </span>
-              <span className="time">
-                {timeString}
-              </span>
-            </span>
-            <span className="channel">{currentRoom.alias}</span>
+        <div>
+          <div className="category blue">
+            <a>Schedule</a>
           </div>
-          <div>
-            <span className="program">
-              {schedule.description}
-            </span>
+          <div className="item" key={index}>
+            <div>
+              <span className="datetime">
+                <span className="date">
+                  {dateString}
+                </span>
+                <span className="time">
+                  {timeString}
+                </span>
+              </span>
+              <span className="channel">{currentRoom.alias}</span>
+            </div>
+            <div>
+              <span className="program">
+                {schedule.description}
+              </span>
+            </div>
           </div>
         </div>
       );
@@ -104,7 +109,21 @@ export default class Popup extends React.Component {
   renderChannel(){
     const { allRoomsInfo } = this.state;
 
-    let roomItems = allRoomsInfo.filter(r=>r.enabled).map(room=>{
+    const enabledRooms = allRoomsInfo.filter(r=>r.enabled);
+    if (enabledRooms.length === 0) {
+      return (
+        <div>
+          <div className="category purple">
+            <a>{`gyaruppi ${chrome.app.getDetails().version}`}</a>
+          </div>
+          <div className="channel">
+            <span className="item">请点击直播间页面标题的铃铛图标订阅通知</span>
+          </div>
+        </div>
+      );
+    }
+
+    let roomItems = enabledRooms.map(room=>{
       let roomKey = `${room.provider}#${room.id}`;
       let itemClassArray = ['item'];
       itemClassArray.push(room.provider);
@@ -125,8 +144,13 @@ export default class Popup extends React.Component {
     });
 
     return (
-      <div className="channel">
-        {roomItems}
+      <div>
+        <div className="category purple">
+          <a>{`gyaruppi ${chrome.app.getDetails().version}`}</a>
+        </div>
+        <div className="channel">
+          {roomItems}
+        </div>
       </div>
     );
 
@@ -135,15 +159,14 @@ export default class Popup extends React.Component {
   render() {
     return (
       <div>
-        <div className="category blue">
-          <a>Schedule</a>
-        </div>
-        {this.renderSchedule()}
+        {
+          //this.renderSchedule()
+        }
 
-        <div className="category purple">
-          <a>Channel</a>
-        </div>
         {this.renderChannel()}
+        <div className="feedback">
+          <a href="https://github.com/larvata/gyaruppi/issues" target="__blank">问题反馈</a>
+        </div>
       </div>
 
     );

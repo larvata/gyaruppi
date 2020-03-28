@@ -1,7 +1,7 @@
 {
   "name": "gyaruppi",
-  "version": "1.2.10",
-  "description": "48 Group live schedule",
+  "version": "1.3.2",
+  "description": "直播间状态通知插件",
   "scripts": {
     "build": "node build.js",
     "start": "node webserver.js"
