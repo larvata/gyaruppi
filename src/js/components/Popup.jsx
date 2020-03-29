@@ -27,6 +27,10 @@ export default class Popup extends React.Component {
     chrome.tabs.create({url:roomUrl});
   }
 
+  _openOptionPage() {
+    chrome.tabs.create({ 'url': `chrome-extension://${chrome.runtime.id}/options.html` });
+  }
+
   _parseScheduleTime(timeString){
     const validateRegex =  /^([0-9]?[0-9]):([0-5][0-9])~([0-9]?[0-9]):([0-5][0-9])$/;
     const matched = timeString.match(validateRegex);
@@ -146,7 +150,7 @@ export default class Popup extends React.Component {
     return (
       <div>
         <div className="category purple">
-          <a>{`gyaruppi ${chrome.app.getDetails().version}`}</a>
+          <a>直播间关注列表</a>
         </div>
         <div className="channel">
           {roomItems}
@@ -164,8 +168,15 @@ export default class Popup extends React.Component {
         }
 
         {this.renderChannel()}
-        <div className="feedback">
-          <a href="https://github.com/larvata/gyaruppi/issues" target="__blank">问题反馈</a>
+        <div className="pure-g footbar">
+          <hr />
+          <div className="pure-u-2-3 feedback">
+            <a href="https://github.com/larvata/gyaruppi/issues" target="_blank">问题反馈</a>
+            <span>{chrome.app.getDetails().version}</span>
+          </div>
+          <div className="pure-u-1-3 setting">
+            <button className="pure-button-primary pure-button" onClick={this._openOptionPage}>设置</button>
+          </div>
         </div>
       </div>
 

@@ -20,7 +20,7 @@ html {
 .category a {
   text-transform: capitalize;
   color: rgb(75, 75, 75);
-  padding: 0.2em 0.5714em;
+  padding: 10px 0px 7px 5px;
   line-height: 1.25;
   display: block;
   font-family: sans-serif;
@@ -130,8 +130,23 @@ html {
   -webkit-text-fill-color: transparent;
 }
 
-.feedback {
-  text-align: right;
-  font-size: 14px;
-  margin: 2px;
+.footbar hr {
+  width: 95%;
+  color: lightgrey;
+  margin: 5px;
 }
+
+.footbar .feedback a{
+  padding-left: 10px;
+  display: inline-block;
+  line-height: 30px;
+}
+
+.footbar .setting {
+  text-align: right;
+}
+
+.footbar .setting button{
+  margin: 3px;
+}
+
