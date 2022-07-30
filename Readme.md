@@ -1,15 +1,27 @@
-# gyaruppi
+# Go Live Notification
 
-gyaruppi(rename from miichan) is a chrome extension to get the notification when your favorite broadcast is online.
-
-
-this project is create by https://github.com/samuelsimoes/chrome-extension-webpack-boilerplate
+Go Live Notification is a chrome extension let you got notified when the streamers go live.
 
 
 [Install from Chrome Web Store](https://chrome.google.com/webstore/detail/gyaruppi/ghnfiadioahomhmocmhgjhpmhcmcggjg?hl=en-US) 
 
-## Build
+
+## Development
 
 ```
-NODE_ENV=production npm run build
+npm install
+npm run watch
 ```
+
+
+## Publish
+
+```
+# build production version
+npm run bulid
+
+# prepare the package for publish
+./pack
+```
+
+Rea

@@ -1,0 +1,17 @@
+{
+  "extension_name": {
+    "message": "Go Live Notification"
+  },
+  "extension_description": {
+    "message": "Got notified when streamers go live. Supports bilibili, douyu, zhanqi and showroom."
+  },
+  "empty_tips": {
+    "message": "Go to the live site, toggle the ring icon before the room title to subscribe."
+  },
+  "feedback_text": {
+    "message": "Feedback"
+  },
+  "feedback_url": {
+    "message": "https://github.com/larvata/gyaruppi/issues"
+  }
+}

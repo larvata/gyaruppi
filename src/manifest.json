@@ -1,45 +1,73 @@
 {
-  "name": "gyaruppi",
-  "options_page": "options.html",
-  "background": {
-    "page": "background.html"
+  "manifest_version": 3,
+  "name": "__MSG_extension_name__",
+  "default_locale": "zh_CN",
+
+  "description": "__MSG_extension_description__",
+
+  "icons": {
+    "16": "icons/app-icon-16.png",
+    "48": "icons/app-icon-48.png",
+    "64": "icons/app-icon-64.png",
+    "128": "icons/app-icon-128.png"
   },
-  "browser_action": {
-    "default_popup": "popup.html",
-    "default_icon": "images/gako.png",
-    "default_title":"gyaruppi"
-  },
-  "permissions":[
-    "idle",
-    "storage",
-    "notifications"
+
+  "permissions": ["storage", "alarms", "notifications"],
+  "host_permissions": [
+    "https://api.live.bilibili.com/",
+    "https://apis.zhanqi.tv/",
+    "https://www.douyu.com/",
+    "https://www.showroom-live.com/"
   ],
-  "icons":{
-    "128":"images/gako.png"
+  "externally_connectable": {
+    "ids": [
+      "lbakekmebfhigegnjnabgedoamdfenjb",
+      "*"
+    ],
+    "matches": [
+      "https://live.bilibili.com/*",
+      "https://www.zhanqi.tv/*",
+      "https://www.douyu.com/*",
+      "https://www.showroom-live.com/*"
+    ]
   },
+
   "content_scripts": [
+     {
+        "matches": [
+          "https://live.bilibili.com/*",
+          "https://www.zhanqi.tv/*",
+          "https://www.douyu.com/*",
+          "https://www.showroom-live.com/*"
+        ],
+        "js": ["site_addons/script_injector.js"]
+     }
+  ],
+
+  "web_accessible_resources": [
     {
-      "matches": [
-        "http://local.larvata.me/",
-        "https://live.haruppi.top/",
-        "https://*.zhanqi.tv/*",
-        "https://*.bilibili.com/*",
-        "https://*.douyu.com/*",
-        "https://*.showroom-live.com/*"
-      ],
-      "js": [
-        "site_addons/script_injector.js"
-      ]
+      "resources": ["site_addons/bilibili_inject.js"],
+      "matches": ["https://live.bilibili.com/*"]
+    },
+    {
+      "resources": ["site_addons/zhanqi_inject.js"],
+      "matches": ["https://www.zhanqi.tv/*"]
+    },
+    {
+      "resources": ["site_addons/douyu_inject.js"],
+      "matches": ["https://www.douyu.com/*"]
+    },
+    {
+      "resources": ["site_addons/showroom_inject.js"],
+      "matches": ["https://www.showroom-live.com/*"]
     }
   ],
-  "web_accessible_resources": [
-    "site_addons/zhanqi_inject.js",
-    "site_addons/bilibili_inject.js",
-    "site_addons/showroom_inject.js",
-    "site_addons/douyu_inject.js",
-    "images/profile.png"
-  ],
-  "homepage_url": "https://live.haruppi.top/",
-  "manifest_version": 2,
-  "content_security_policy": "script-src 'self' 'unsafe-eval' http://localhost:%PORT%; object-src 'self'"
+
+  "action": {
+    "default_popup": "popup.html"
+  },
+
+  "background": {
+    "service_worker": "background.js"
+  }
 }

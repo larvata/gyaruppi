@@ -1,0 +1,17 @@
+{
+  "extension_name": {
+    "message": "直播通知助手"
+  },
+  "extension_description": {
+    "message": "直播间开播通知 支持 bilibili, douyu, zhanqi, showroom"
+  },
+  "empty_tips": {
+    "message": "在直播页面 点击标题前的铃铛图标 订阅通知"
+  },
+  "feedback_text": {
+    "message": "意见反馈"
+  },
+  "feedback_url": {
+    "message": "https://github.com/larvata/gyaruppi/issues"
+  }
+}
