@@ -1,6 +1,8 @@
 import {
   subscribeIconBase64,
   unsubscribeIconBase64,
+  DOM_DATASET_ID,
+  EVENTS,
 } from './constants';
 
 export default class RoomSubscriber {
@@ -10,13 +12,13 @@ export default class RoomSubscriber {
     }
 
     this.options = options;
-    this.options.extensionId = document.querySelector('#gyaruppi-data').dataset.extensionId;
+    this.options.extensionId = document.querySelector(`#${DOM_DATASET_ID}`).dataset.extensionId;
     this.init();
 
     chrome.runtime.sendMessage(
       this.options.extensionId,
       {
-        event: 'request_room_info',
+        event: EVENTS.REQUEST_ROOMS_INFO,
         provider: this.options.provider,
         id: this.options.id,
         title: this.options.title,
@@ -54,7 +56,7 @@ export default class RoomSubscriber {
     chrome.runtime.sendMessage(
       this.options.extensionId,
       {
-        event: 'subscribe_room',
+        event: EVENTS.SUBSCRIBE_ROOM,
         provider: this.options.provider,
         id: this.options.id,
         subscribe: isSubscribe,
@@ -83,7 +85,6 @@ export default class RoomSubscriber {
 
   validate() {
     // TODO validate necessary implements
-
     return true;
   }
 }

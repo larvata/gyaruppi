@@ -2,6 +2,7 @@
 import {
   PROVIDER,
 } from '../common/constants';
+import { waitFor } from '../common/utils';
 
 import RoomSubscriber from '../common/room-subscriber';
 
@@ -10,7 +11,6 @@ class ShowroomRoomSubscriber extends RoomSubscriber {
     super({
       provider: PROVIDER.SHOWROOM,
       id: window.__NUXT__.state.roomId,
-      title: window.__NUXT__.state.roomName,
       ...options,
     });
   }
@@ -23,4 +23,9 @@ class ShowroomRoomSubscriber extends RoomSubscriber {
   }
 }
 
-const subscriber = new ShowroomRoomSubscriber();
+waitFor(
+  () => window.__NUXT__ && window.__NUXT__.state && window.__NUXT__.state.roomId,
+  () => {
+    const subscriber = new ShowroomRoomSubscriber();
+  },
+);

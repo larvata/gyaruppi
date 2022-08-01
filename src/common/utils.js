@@ -24,7 +24,7 @@ function getReadableTime(rawMinutes) {
   let hours = 0;
   let minutes = 0;
   let rest = rawMinutes;
-console.log('rawMinutes:', rawMinutes)
+
   days = rest / (60 * 24) | 0;
   rest %= (60 * 24);
 
@@ -44,6 +44,7 @@ export async function removeRoomNotification(room) {
   await promisify(chrome.notifications.clear)(roomKey);
 }
 
+// TODO i18n
 export async function showRoomNotification(room) {
   await removeRoomNotification(room);
 

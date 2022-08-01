@@ -1,5 +1,5 @@
 import EventEmitter from 'eventemitter3';
-import { ROOM_STATUS } from './constants';
+import { ROOM_STATUS, EVENTS } from './constants';
 import { findAdapter } from '../adapter';
 
 /*
@@ -80,9 +80,8 @@ export default class Room extends EventEmitter {
       });
 
       if (lastStatus !== this.status) {
-        this.emit('status', this);
+        this.emit(EVENTS.STATUS, this);
       }
-      this.emit('refresh', this);
       return this;
     });
   }

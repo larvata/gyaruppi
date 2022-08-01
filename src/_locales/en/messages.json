@@ -6,7 +6,7 @@
     "message": "Got notified when streamers go live. Supports bilibili, douyu, zhanqi and showroom."
   },
   "empty_tips": {
-    "message": "Go to the live site, toggle the ring icon before the room title to subscribe."
+    "message": "Go to the live site, toggle the ring bell icon before the room title to subscribe."
   },
   "feedback_text": {
     "message": "Feedback"

@@ -10,7 +10,6 @@ class ZhanqiRoomSubscriber extends RoomSubscriber {
     super({
       provider: PROVIDER.ZHANQI,
       id: +window.oPageConfig.oRoom.id,
-      title: document.querySelector('.room-name').innerText,
       ...options,
     });
   }

@@ -11,7 +11,6 @@ class BilibiliRoomSubscriber extends RoomSubscriber {
     super({
       provider: PROVIDER.BILIBILI,
       id: window.BilibiliLive.ROOMID,
-      title: document.querySelector('.small-title').getAttribute('title'),
       ...options,
     });
   }

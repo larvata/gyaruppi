@@ -1,30 +1,21 @@
 import RoomManager from './common/room-manager';
 import {
   showRoomNotification,
-  removeRoomNotification,
 } from './common/utils';
-import { ROOM_STATUS } from './common/constants';
+import { ROOM_STATUS, EVENTS } from './common/constants';
 
 const manager = new RoomManager();
 
-manager.on('status', (room) => {
-  console.log(room.status, room);
+manager.on(EVENTS.STATUS, (room) => {
   if (room.status === ROOM_STATUS.ONLINE) {
     showRoomNotification(room);
   } else {
-    removeRoomNotification(room);
+    // removeRoomNotification(room);
   }
-});
-
-chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-  if (request.event !== 'list_rooms') {
-    return;
-  }
-  sendResponse(manager.rooms);
 });
 
 chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
-  if (request.event !== 'request_room_info') {
+  if (request.event !== EVENTS.REQUEST_ROOMS_INFO) {
     return;
   }
 
@@ -34,11 +25,9 @@ chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => 
 });
 
 chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
-  if (request.event !== 'subscribe_room') {
+  if (request.event !== EVENTS.SUBSCRIBE_ROOM) {
     return false;
   }
-
-  console.log('subscribe:', request)
 
   if (request.subscribe) {
     manager.add(request);

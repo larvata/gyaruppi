@@ -12,7 +12,7 @@
     "128": "icons/app-icon-128.png"
   },
 
-  "permissions": ["storage", "alarms", "notifications"],
+  "permissions": ["storage", "alarms", "notifications", "idle"],
   "host_permissions": [
     "https://api.live.bilibili.com/",
     "https://apis.zhanqi.tv/",

@@ -1,6 +1,6 @@
 {
   "name": "gyaruppi",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "description": "Add the \"Go Live Streaming Notifications\" ability to the live streaming services (bilibili, douyu, zhanqi, showroom).",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",

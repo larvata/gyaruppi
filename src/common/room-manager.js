@@ -1,12 +1,14 @@
 import EventEmitter from 'eventemitter3';
 
-import { ALARM_ID, ROOM_STATUS } from './constants';
+import { ALARMS, STORAGE_KEY, EVENTS } from './constants';
 import Room from './room';
 
 export default class RoomManager extends EventEmitter {
   constructor() {
     super();
     this.rooms = [];
+    this.idleState = chrome.idle.IdleState.ACTIVE;
+
     this.init();
   }
 
@@ -14,46 +16,47 @@ export default class RoomManager extends EventEmitter {
   async init() {
     await this.load();
 
-    let alarm = await chrome.alarms.get(ALARM_ID);
-    if (!alarm) {
-      await chrome.alarms.create(ALARM_ID, {
-        periodInMinutes: 5,
+    // setup alarm
+    ALARMS.forEach(async (alarmSetting) => {
+      chrome.alarms.create(alarmSetting.id, {
+        periodInMinutes: alarmSetting.period,
       });
-      alarm = await chrome.alarms.get(ALARM_ID);
-    }
+    });
 
     chrome.alarms.onAlarm.addListener((alarm) => {
-      if (alarm.name !== ALARM_ID) {
+      const matched = ALARMS.find((a) => a.id === alarm.name);
+      if (!matched) {
         return;
       }
 
-      this.fetchAllRoomInfo();
+      if (matched.idleState === this.idleState) {
+        this.fetchAllRoomInfo();
+      }
     });
   }
 
   // private
   load() {
-    return chrome.storage.sync.get(['rooms'])
+    return chrome.storage.sync.get([STORAGE_KEY.ROOMS])
       .then((data) => {
         this.rooms = (data.rooms || [])
           .map((roomInfo) => this.add(roomInfo));
-        this.emit('ready');
       });
   }
 
   save() {
-    const roomData = this.rooms.map((r) => {
-      const room = r.toJSON();
-      room.status = ROOM_STATUS.OFFLINE;
-      return room;
+    const roomData = this.rooms.map((r) => r.toJSON());
+    return chrome.storage.sync.set({
+      [STORAGE_KEY.ROOMS]: roomData,
     });
-    return chrome.storage.sync.set({ rooms: roomData });
   }
 
   fetchAllRoomInfo() {
-    this.rooms.forEach((r) => {
-      r.fetchRoomInfo();
-    });
+    this.rooms.forEach((room) => this.fetchRoomInfo(room));
+  }
+
+  fetchRoomInfo(room) {
+    room.fetchRoomInfo().then(() => this.save());
   }
 
   // returns room info
@@ -64,15 +67,11 @@ export default class RoomManager extends EventEmitter {
     }
 
     const room = new Room(roomInfo);
-    room.on('status', (status) => {
-      this.emit('status', room);
-    });
-    room.on('refresh', (room) => {
-      this.emit('refresh', room);
+    room.on(EVENTS.STATUS, () => {
+      this.emit(EVENTS.STATUS, room);
     });
     this.rooms.push(room);
-    room.fetchRoomInfo();
-    this.save();
+    this.fetchRoomInfo(room);
     return room;
   }
 

@@ -4,7 +4,6 @@
   jsx-a11y/anchor-is-valid
 */
 
-import { useState, useEffect } from 'react';
 import { createRoot } from 'react-dom/client';
 import { ROOM_STATUS } from './common/constants';
 
@@ -33,27 +32,16 @@ function Footer() {
         {`
 .footer {
   text-align: right;
-  padding: 10px;
+  padding: 5px 10px 10px 10px;
 }
         `}
       </style>
     </div>
-  )
+  );
 }
 
 function Popup(props) {
-  const [rooms, setRooms] = useState(props.rooms);
-
-  useEffect(() => {
-    chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
-      if (request.event !== 'refresh_rooms') {
-        return;
-      }
-      setRooms(request.rooms);
-    });
-  }, []);
-
-  const roomButtons = rooms.map((room) => {
+  const roomButtons = props.rooms.map((room) => {
     const classArray = ['item', room.provider];
     if (room.status === ROOM_STATUS.ONLINE) {
       classArray.push('online');
@@ -164,9 +152,9 @@ html {
   );
 }
 
-chrome.runtime.sendMessage({
-  event: 'list_rooms',
-}, (rooms) => {
-  const root = createRoot(document.getElementById('root'));
-  root.render(<Popup rooms={rooms} />);
-});
+chrome.storage.sync.get(['rooms'])
+  .then((data) => {
+    const rooms = (data.rooms || []);
+    const root = createRoot(document.getElementById('root'));
+    root.render(<Popup rooms={rooms} />);
+  });
