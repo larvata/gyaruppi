@@ -24,4 +24,6 @@ npm run bulid
 ./pack
 ```
 
-Rea
+## Credit
+
+The icon has been designed using resources from [Flaticon.com](https://www.flaticon.com/)

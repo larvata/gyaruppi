@@ -28,7 +28,7 @@ const pluginResizeAndCopyIcons = () => {
   }];
 
   return METADATA.map((md) => ({
-    from: 'src/icon.png',
+    from: 'src/live.png',
     to: `icons/${md.name}.png`,
     transform: (content) => sharp(content).resize(md.size).toBuffer(),
   }));
