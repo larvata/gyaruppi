@@ -9,8 +9,7 @@ const manager = new RoomManager();
 manager.on(EVENTS.STATUS, (room) => {
   if (room.status === ROOM_STATUS.ONLINE) {
     showRoomNotification(room);
-  } else {
-    // removeRoomNotification(room);
+    chrome.action.setBadgeText({ text: '!' });
   }
 });
 

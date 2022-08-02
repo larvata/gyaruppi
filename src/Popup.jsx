@@ -154,6 +154,7 @@ html {
 
 chrome.storage.sync.get(['rooms'])
   .then((data) => {
+    chrome.action.setBadgeText({ text: '' });
     const rooms = (data.rooms || []);
     const root = createRoot(document.getElementById('root'));
     root.render(<Popup rooms={rooms} />);

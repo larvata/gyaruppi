@@ -68,8 +68,6 @@ export default class RoomSubscriber {
   }
 
   updateIcon(roomInfo) {
-    // TODO set icon visible status
-
     if (roomInfo.subscribed) {
       this.subscribeIcon.style.display = 'none';
       this.unsubscribeIcon.style.display = 'initial';
