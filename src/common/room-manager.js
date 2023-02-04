@@ -1,3 +1,7 @@
+/* eslint-disable
+  no-underscore-dangle
+*/
+
 import EventEmitter from 'eventemitter3';
 
 import { ALARMS, STORAGE_KEY, EVENTS } from './constants';
@@ -8,14 +12,30 @@ export default class RoomManager extends EventEmitter {
     super();
     this.rooms = [];
     this.idleState = chrome.idle.IdleState.ACTIVE;
+    this.initialized = false;
+    this.deferredTasks = [];
 
-    this.init();
+    this.restore()
+      .then(() => this.initialize())
+      .then(() => {
+        this.initialized = true;
+        this.deferredTasks.forEach((task) => task());
+      });
   }
 
   // private
-  async init() {
-    await this.load();
+  // restore room info from the local storage
+  restore() {
+    return chrome.storage.sync.get([STORAGE_KEY.ROOMS])
+      .then((data) => {
+        this.rooms = (data.rooms || [])
+          .map((roomInfo) => this.add(roomInfo));
+      });
+  }
 
+  // private
+  // initialize the alarm
+  async initialize() {
     // setup alarm
     ALARMS.forEach(async (alarmSetting) => {
       chrome.alarms.create(alarmSetting.id, {
@@ -33,15 +53,6 @@ export default class RoomManager extends EventEmitter {
         this.fetchAllRoomInfo();
       }
     });
-  }
-
-  // private
-  load() {
-    return chrome.storage.sync.get([STORAGE_KEY.ROOMS])
-      .then((data) => {
-        this.rooms = (data.rooms || [])
-          .map((roomInfo) => this.add(roomInfo));
-      });
   }
 
   save() {
@@ -84,5 +95,21 @@ export default class RoomManager extends EventEmitter {
 
   get(roomInfo) {
     return this.rooms.find((r) => r.provider === roomInfo.provider && r.id === roomInfo.id);
+  }
+
+  getDeferred(roomInfo, callback) {
+    if (!callback) {
+      return;
+    }
+
+    if (this.initialized) {
+      callback(this.get(roomInfo));
+      return;
+    }
+
+    // uninitialized
+    this.deferredTasks.push(() => {
+      callback(this.get(roomInfo));
+    });
   }
 }

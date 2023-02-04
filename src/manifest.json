@@ -20,10 +20,6 @@
     "https://www.showroom-live.com/"
   ],
   "externally_connectable": {
-    "ids": [
-      "lbakekmebfhigegnjnabgedoamdfenjb",
-      "*"
-    ],
     "matches": [
       "https://live.bilibili.com/*",
       "https://www.zhanqi.tv/*",

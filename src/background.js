@@ -1,6 +1,7 @@
 import RoomManager from './common/room-manager';
 import {
   showRoomNotification,
+  removeRoomNotification,
 } from './common/utils';
 import { ROOM_STATUS, EVENTS } from './common/constants';
 
@@ -10,6 +11,13 @@ manager.on(EVENTS.STATUS, (room) => {
   if (room.status === ROOM_STATUS.ONLINE) {
     showRoomNotification(room);
     chrome.action.setBadgeText({ text: '!' });
+  } else {
+    // offline
+    removeRoomNotification(room);
+    const allOffline = manager.rooms.every((r) => r.status === ROOM_STATUS.OFFLINE);
+    if (allOffline) {
+      chrome.action.setBadgeText({ text: '' });
+    }
   }
 });
 
@@ -18,9 +26,12 @@ chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => 
     return;
   }
 
-  const room = manager.get(request);
-  const result = room ? { subscribed: true } : { subscribed: false };
-  sendResponse(result);
+  // background script will be destory by chrome
+  // at that time the RoomManager cannot get the roomInfo immediately
+  manager.getDeferred(request, (room) => {
+    const result = room ? { subscribed: true } : { subscribed: false };
+    sendResponse(result);
+  });
 });
 
 chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
