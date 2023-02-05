@@ -1,6 +1,5 @@
 // Generated using webpack-cli https://github.com/webpack/webpack-cli
 
-const fs = require('fs');
 const path = require('path');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
@@ -8,6 +7,7 @@ const CopyWebpackPlugin = require('copy-webpack-plugin');
 const { CleanWebpackPlugin } = require('clean-webpack-plugin');
 const sharp = require('sharp');
 const pkg = require('./package.json');
+const PROVIDERS = require('./src/common/providers');
 
 const isProduction = process.env.NODE_ENV === 'production';
 const stylesHandler = MiniCssExtractPlugin.loader;
@@ -34,23 +34,13 @@ const pluginResizeAndCopyIcons = () => {
   }));
 };
 
-const getSiteAddonsEntrypoints = () => {
-  const SITE_ADDONS_PATH = './src/site_addons';
-  const dirs = fs.readdirSync(SITE_ADDONS_PATH);
-  return dirs.reduce((output, d) => {
-    if (d.startsWith('_')) {
-      return output;
-    }
-
-    if (!d.endsWith('.js')) {
-      return output;
-    }
-
-    const entry = d.replace(/.js$/, '');
-    output[`site_addons/${entry}`] = `${SITE_ADDONS_PATH}/${d}`;
-    return output;
-  }, {});
-};
+const getSiteAddonsEntrypoints = () => PROVIDERS.reduce((output, provider) => {
+  const entry = `${provider.name}_inject`;
+  output[`site_addons/${entry}`] = `./src/site_addons/${entry}.js`;
+  return output;
+}, {
+  'site_addons/script_injector': './src/site_addons/script_injector.js',
+});
 
 const config = {
   entry: {
@@ -95,6 +85,13 @@ const config = {
           transform: (content) => {
             const manifest = JSON.parse(content.toString());
             manifest.version = pkg.version;
+
+            // generate host_permissions, enternally_connectable, content_scripts
+            PROVIDERS.forEach((provider) => {
+              manifest.host_permissions.push(provider.host_permissions);
+              manifest.externally_connectable.matches.push(provider.content_scripts);
+              manifest.content_scripts[0].matches.push(provider.content_scripts);
+            });
 
             return JSON.stringify(manifest, null, 2);
           },

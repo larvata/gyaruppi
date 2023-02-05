@@ -13,37 +13,21 @@
   },
 
   "permissions": ["storage", "alarms", "notifications", "idle"],
-  "host_permissions": [
-    "https://api.live.bilibili.com/",
-    "https://apis.zhanqi.tv/",
-    "https://www.douyu.com/",
-    "https://www.showroom-live.com/",
-    "https://www.openrec.tv/"
-  ],
+
+  "host_permissions": [],
+
   "externally_connectable": {
     "ids": [
       "ghnfiadioahomhmocmhgjhpmhcmcggjg",
       "ihapcpgfllkdaoojahafjggbglodlpmd"
     ],
-    "matches": [
-      "https://live.bilibili.com/*",
-      "https://www.zhanqi.tv/*",
-      "https://www.douyu.com/*",
-      "https://www.showroom-live.com/*",
-      "https://www.openrec.tv/*"
-    ]
+    "matches": []
   },
 
   "content_scripts": [
      {
-        "matches": [
-          "https://live.bilibili.com/*",
-          "https://www.zhanqi.tv/*",
-          "https://www.douyu.com/*",
-          "https://www.showroom-live.com/*",
-          "https://www.openrec.tv/*"
-        ],
-        "js": ["site_addons/script_injector.js"]
+        "js": ["site_addons/script_injector.js"],
+        "matches": []
      }
   ],
 
