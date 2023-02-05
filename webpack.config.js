@@ -96,10 +96,6 @@ const config = {
             const manifest = JSON.parse(content.toString());
             manifest.version = pkg.version;
 
-            if (isProduction) {
-              manifest.externally_connectable.ids = manifest.externally_connectable.ids.filter((id) => id !== '*');
-            }
-
             return JSON.stringify(manifest, null, 2);
           },
         },

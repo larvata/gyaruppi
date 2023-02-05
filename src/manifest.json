@@ -17,14 +17,20 @@
     "https://api.live.bilibili.com/",
     "https://apis.zhanqi.tv/",
     "https://www.douyu.com/",
-    "https://www.showroom-live.com/"
+    "https://www.showroom-live.com/",
+    "https://www.openrec.tv/"
   ],
   "externally_connectable": {
+    "ids": [
+      "ghnfiadioahomhmocmhgjhpmhcmcggjg",
+      "ihapcpgfllkdaoojahafjggbglodlpmd"
+    ],
     "matches": [
       "https://live.bilibili.com/*",
       "https://www.zhanqi.tv/*",
       "https://www.douyu.com/*",
-      "https://www.showroom-live.com/*"
+      "https://www.showroom-live.com/*",
+      "https://www.openrec.tv/*"
     ]
   },
 
@@ -34,7 +40,8 @@
           "https://live.bilibili.com/*",
           "https://www.zhanqi.tv/*",
           "https://www.douyu.com/*",
-          "https://www.showroom-live.com/*"
+          "https://www.showroom-live.com/*",
+          "https://www.openrec.tv/*"
         ],
         "js": ["site_addons/script_injector.js"]
      }
@@ -56,6 +63,10 @@
     {
       "resources": ["site_addons/showroom_inject.js"],
       "matches": ["https://www.showroom-live.com/*"]
+    },
+    {
+      "resources": ["site_addons/openrec_inject.js"],
+      "matches": ["https://www.openrec.tv/*"]
     }
   ],
 

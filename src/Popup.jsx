@@ -146,6 +146,13 @@ html {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
 }
+
+.channel span.item.online.openrec {
+  background-color: #ff8300;
+}
+.channel span.item.online.openrec:hover {
+  background-color: #ffa200;
+}
         `}
       </style>
     </div>

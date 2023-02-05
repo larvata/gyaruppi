@@ -3,6 +3,7 @@ export const PROVIDER = {
   DOUYU: 'douyu',
   BILIBILI: 'bilibili',
   SHOWROOM: 'showroom',
+  OPENREC: 'openrec',
 };
 
 export const ROOM_STATUS = {
@@ -15,6 +16,7 @@ export const SUPPORTTED_SITES = {
   'live.bilibili.com': 'site_addons/bilibili_inject.js',
   'www.douyu.com': 'site_addons/douyu_inject.js',
   'www.showroom-live.com': 'site_addons/showroom_inject.js',
+  'www.openrec.tv': 'site_addons/openrec_inject.js',
 };
 
 export const EVENTS = {
