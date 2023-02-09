@@ -153,6 +153,14 @@ html {
 .channel span.item.online.openrec:hover {
   background-color: #ffa200;
 }
+
+.channel span.item.online.twitcasting {
+  color: white;
+  background-color: #3381ff;
+}
+.channel span.item.online.twitcasting:hover {
+  background-color: #1b71fa;
+}
         `}
       </style>
     </div>

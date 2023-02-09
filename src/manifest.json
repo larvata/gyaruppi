@@ -31,28 +31,7 @@
      }
   ],
 
-  "web_accessible_resources": [
-    {
-      "resources": ["site_addons/bilibili_inject.js"],
-      "matches": ["https://live.bilibili.com/*"]
-    },
-    {
-      "resources": ["site_addons/zhanqi_inject.js"],
-      "matches": ["https://www.zhanqi.tv/*"]
-    },
-    {
-      "resources": ["site_addons/douyu_inject.js"],
-      "matches": ["https://www.douyu.com/*"]
-    },
-    {
-      "resources": ["site_addons/showroom_inject.js"],
-      "matches": ["https://www.showroom-live.com/*"]
-    },
-    {
-      "resources": ["site_addons/openrec_inject.js"],
-      "matches": ["https://www.openrec.tv/*"]
-    }
-  ],
+  "web_accessible_resources": [],
 
   "action": {
     "default_popup": "popup.html"

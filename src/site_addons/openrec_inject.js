@@ -52,9 +52,15 @@ class OpenRecRoomSubscriber extends RoomSubscriber {
       return;
     }
 
-    const container = document.querySelector('[class^="UserName__Wrapper"] [class^="UserName__Name"]')
-      .parentElement
-      .parentElement;
+    let container = document.querySelector('[class^="UserName__Wrapper"] [class^="UserName__Name"]');
+    if (location.href.includes('/user/')) {
+      // user page
+      // nope
+    } else {
+      // live page
+      container = container.parentElement.parentElement;
+    }
+
     container.before(this.subscribeIcon);
     container.before(this.unsubscribeIcon);
     console.log('OpenRecRoomSubscriber setup done');
@@ -62,7 +68,7 @@ class OpenRecRoomSubscriber extends RoomSubscriber {
 }
 
 waitFor(
-  () => document.querySelector('[class^="UserName__Wrapper"] [class^="UserName__Name"]'),
+  () => document.querySelector('[class^="UserName__Wrapper"]'),
   () => {
     const subscriber = new OpenRecRoomSubscriber();
   },

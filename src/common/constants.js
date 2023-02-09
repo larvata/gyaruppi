@@ -4,6 +4,7 @@ const PROVIDER = {
   BILIBILI: 'bilibili',
   SHOWROOM: 'showroom',
   OPENREC: 'openrec',
+  TWITCASTING: 'twitcasting',
 };
 
 const ROOM_STATUS = {

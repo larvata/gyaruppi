@@ -3,7 +3,7 @@
     "message": "Go Live Notification"
   },
   "extension_description": {
-    "message": "Got notified when streamers go live. Supports bilibili, douyu, zhanqi and showroom."
+    "message": "Got notified when streamers go live. Supports bilibili, douyu, zhanqi, showroom, openrec and twitcasting."
   },
   "empty_tips": {
     "message": "Go to the live site, toggle the ring bell icon before the room title to subscribe."

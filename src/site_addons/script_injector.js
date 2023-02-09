@@ -1,11 +1,9 @@
-import {
-  SUPPORTTED_SITES,
-  DOM_DATASET_ID,
-} from '../common/constants';
+import { DOM_DATASET_ID } from '../common/constants';
+import PROVIDERS from '../common/providers';
 
 (() => {
-  const injectScript = SUPPORTTED_SITES[location.host];
-  if (!injectScript) {
+  const provider = PROVIDERS.find((p) => new URL(p.content_scripts).hostname === location.host);
+  if (!provider) {
     return;
   }
 
@@ -15,6 +13,6 @@ import {
   document.body.appendChild(dataTag);
 
   const script = document.createElement('script');
-  script.src = chrome.runtime.getURL(injectScript);
+  script.src = chrome.runtime.getURL(`site_addons/${provider.name}_inject.js`);
   (document.head || document.documentElement).appendChild(script);
 })();

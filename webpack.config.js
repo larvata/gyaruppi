@@ -91,6 +91,10 @@ const config = {
               manifest.host_permissions.push(provider.host_permissions);
               manifest.externally_connectable.matches.push(provider.content_scripts);
               manifest.content_scripts[0].matches.push(provider.content_scripts);
+              manifest.web_accessible_resources.push({
+                resources: [`site_addons/${provider.name}_inject.js`],
+                matches: [provider.content_scripts],
+              });
             });
 
             return JSON.stringify(manifest, null, 2);

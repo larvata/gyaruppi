@@ -20,11 +20,11 @@ export default (roomId) => {
       if (movie.onair_status === 1) {
         // 1: online
         result.status = ROOM_STATUS.ONLINE;
-        result.roomUrl = `https://www.openrec.tv/user/${movie.channel.id}`;
+        result.roomUrl = `https://www.openrec.tv/live/${movie.id}`;
       } else {
         // 2: offline
         result.status = ROOM_STATUS.OFFLINE;
-        result.roomUrl = `https://www.openrec.tv/live/${movie.id}`;
+        result.roomUrl = `https://www.openrec.tv/user/${movie.channel.id}`;
       }
 
       result.title = movie.channel.nickname;
@@ -32,8 +32,6 @@ export default (roomId) => {
       result.username = movie.channel.id;
       result.follows = movie.channel.followers;
       result.liveStartAt = movie.created_at;
-      result.status = status;
-      result.roomUrl = `https://www.openrec.tv/live/${movie.id}`;
       result.avatarUrl = movie.channel.icon_image_url;
       result.online = movie.live_views;
       return result;
