@@ -1,5 +1,9 @@
 import { PROVIDER } from './constants';
 
+export function now() {
+  return new Date().getTime();
+}
+
 export function promisify(func) {
   return (...options) => new Promise((resolve, reject) => {
     // TODO handle reject()

@@ -11,7 +11,6 @@ export default class RoomManager extends EventEmitter {
   constructor() {
     super();
     this.rooms = [];
-    this.idleState = chrome.idle.IdleState.ACTIVE;
     this.initialized = false;
     this.deferredTasks = [];
 
@@ -49,9 +48,12 @@ export default class RoomManager extends EventEmitter {
         return;
       }
 
-      if (matched.idleState === this.idleState) {
-        this.fetchAllRoomInfo();
-      }
+      const IDLE_INTERVAL_IN_SECONDS = 60 * 10;
+      chrome.idle.queryState(IDLE_INTERVAL_IN_SECONDS, (idleState) => {
+        if (matched.idleState === idleState) {
+          this.fetchAllRoomInfo();
+        }
+      });
     });
   }
 

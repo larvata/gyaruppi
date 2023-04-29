@@ -29,7 +29,7 @@ npm run watch
 # update the version in package.json
 
 # build production version
-npm run bulid
+npm run build
 
 # prepare the package for publish
 ./pack
