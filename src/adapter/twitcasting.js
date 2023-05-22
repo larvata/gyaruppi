@@ -33,7 +33,7 @@ async function getLatestMovie(roomId) {
   const latestMoiveUrl = `https://frontendapi.twitcasting.tv/users/${roomId}/latest-movie?__n=${timestamp}`;
   const u = new URL(latestMoiveUrl);
   const sessionId = await getSessionId(roomId);
-  const parameterString = 'nor8eeprd8ose3k6'
+  const parameterString = '3gapbnr449n856tj'
     .concat(timestampShort)
     .concat('GET')
     .concat(`${u.pathname}?${u.searchParams}`)
