@@ -36,6 +36,11 @@ const pluginResizeAndCopyIcons = () => {
 
 const getSiteAddonsEntrypoints = () => PROVIDERS.reduce((output, provider) => {
   const entry = `${provider.name}_inject`;
+  if (!provider.name) {
+    // the provider is disabled
+    return output;
+  }
+
   output[`site_addons/${entry}`] = `./src/site_addons/${entry}.js`;
   return output;
 }, {
