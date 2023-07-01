@@ -3,7 +3,10 @@ import PROVIDERS from '../common/providers';
 
 (() => {
   const provider = PROVIDERS.find((p) => new URL(p.content_scripts).hostname === location.host);
-  if (!provider) {
+
+  if (!provider || !provider.name) {
+    // when the provider is disabled in the constants.PROVIDER
+    // provide.name will be undefined
     return;
   }
 

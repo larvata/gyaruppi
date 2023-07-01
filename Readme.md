@@ -11,7 +11,7 @@ Supported Sites:
 - douyu
 - openrec
 - showroom
-- twitcasting
+- ~~twitcasting~~
 - zhanqi
 
 

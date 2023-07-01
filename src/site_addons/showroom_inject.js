@@ -10,7 +10,7 @@ class ShowroomRoomSubscriber extends RoomSubscriber {
   constructor(options) {
     super({
       provider: PROVIDER.SHOWROOM,
-      id: window.__NUXT__.state.roomId,
+      id: window.__NUXT__.pinia.main.roomProfile.room_id,
       ...options,
     });
   }
@@ -24,7 +24,9 @@ class ShowroomRoomSubscriber extends RoomSubscriber {
 }
 
 waitFor(
-  () => window.__NUXT__ && window.__NUXT__.state && window.__NUXT__.state.roomId,
+  () => window.__NUXT__
+    && window.__NUXT__.state
+    && window.__NUXT__.pinia.main.roomProfile.room_id,
   () => {
     const subscriber = new ShowroomRoomSubscriber();
   },

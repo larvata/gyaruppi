@@ -5,7 +5,7 @@
 */
 
 import { createRoot } from 'react-dom/client';
-import { ROOM_STATUS } from './common/constants';
+import { ROOM_STATUS, PROVIDER } from './common/constants';
 
 function onLinkClick(href) {
   if (!href) {
@@ -170,7 +170,8 @@ html {
 chrome.storage.sync.get(['rooms'])
   .then((data) => {
     chrome.action.setBadgeText({ text: '' });
-    const rooms = (data.rooms || []);
+    // prevent list the room which is not in the provider list
+    const rooms = (data.rooms || []).filter((r) => PROVIDER[r.provider.toUpperCase()]);
     const root = createRoot(document.getElementById('root'));
     root.render(<Popup rooms={rooms} />);
   });
