@@ -10,6 +10,8 @@ const manager = new RoomManager();
 manager.on(EVENTS.STATUS, (room) => {
   if (room.status === ROOM_STATUS.ONLINE) {
     showRoomNotification(room);
+    chrome.action.setBadgeBackgroundColor({ color: '#f1592b' });
+    chrome.action.setBadgeTextColor({ color: 'white' });
     chrome.action.setBadgeText({ text: '!' });
   } else {
     // offline

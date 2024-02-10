@@ -20,8 +20,10 @@ module.exports = [{
   name: PROVIDER.OPENREC,
   host_permissions: 'https://www.openrec.tv/',
   content_scripts: 'https://www.openrec.tv/*',
-}, {
-  name: PROVIDER.TWITCASTING,
-  host_permissions: 'https://*.twitcasting.tv/*',
-  content_scripts: 'https://twitcasting.tv/*',
-}];
+},
+// {
+//   name: PROVIDER.TWITCASTING,
+//   host_permissions: 'https://*.twitcasting.tv/*',
+//   content_scripts: 'https://twitcasting.tv/*',
+// }
+];

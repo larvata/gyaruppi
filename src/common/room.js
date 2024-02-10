@@ -57,6 +57,11 @@ export default class Room extends EventEmitter {
   }
 
   fetchRoomInfo() {
+    if (!this.adapter) {
+      // for the provider of the room is no longer avaialable(e.g.: twicasting)
+      return Promise.resolve();
+    }
+
     const lastStatus = this.status;
     return this.adapter(this.id).then((data) => {
       [
