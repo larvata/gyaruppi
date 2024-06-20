@@ -5,7 +5,11 @@
 */
 
 import { createRoot } from 'react-dom/client';
-import { ROOM_STATUS, PROVIDER } from './common/constants';
+import {
+  ROOM_STATUS,
+  PROVIDER,
+  EVENTS,
+} from './common/constants';
 
 function onLinkClick(href) {
   if (!href) {
@@ -24,6 +28,11 @@ function Link(props) {
 function Footer() {
   return (
     <div className="footer">
+      <div>
+      {chrome.runtime.getManifest().version}
+      </div>
+      <span>
+      </span>
       <Link href={chrome.i18n.getMessage('feedback_url')}>
         {chrome.i18n.getMessage('feedback_text')}
       </Link>
@@ -42,13 +51,21 @@ function Footer() {
 
 function Popup(props) {
   const roomButtons = props.rooms.map((room) => {
-    const classArray = ['item', room.provider];
+    const classArray = ['item', 'tooltip', room.provider];
     if (room.status === ROOM_STATUS.ONLINE) {
       classArray.push('online');
     }
 
     const displayText = `${room.title} (${room.online || '-'})`;
-    const altText = `关注人数: ${room.follows}`;
+    let altText = `关注人数: ${room.follows}`;
+
+    const tooltipArray = [`关注人数: ${room.follows}`];
+    if (room.username !== room.title) {
+      tooltipArray.unshift(<br />);
+      tooltipArray.unshift(room.username);
+
+      altText = `${room.username}\n${altText}`;
+    }
 
     return (
       <span
@@ -58,7 +75,14 @@ function Popup(props) {
           url: room.roomUrl,
         })}
       >
-        <a title={altText}>{displayText}</a>
+{/*        <span className="tooltiptext">
+          {tooltipArray}
+        </span>*/}
+        <a
+          title={altText}
+        >
+          {displayText}
+        </a>
       </span>
     );
   });
@@ -85,6 +109,32 @@ html {
   cursor: default;
 }
 
+.tooltip {
+  position: relative;
+  display: inline-block;
+  border-bottom: 1px dotted black; /* If you want dots under the hoverable text */
+}
+
+.tooltip .tooltiptext {
+  top: 32px;
+  left: 5px;
+  pointer-events: none;
+  background-color: rgb(240,240,240);
+  visibility: hidden;
+  width: 240px;
+  text-align: center;
+  padding: 5px 0;
+  border-radius: 6px;
+
+  /* Position the tooltip text - see examples below! */
+  position: absolute;
+  z-index: 1;
+}
+
+.tooltip:hover .tooltiptext {
+  visibility: visible;
+}
+
 .header {
   padding: 10px;
   font-weight: bold;
@@ -92,6 +142,12 @@ html {
 
 .tips {
   padding: 0 10px 10px 10px;
+}
+
+.channel {
+  max-height: 520px;
+  overflow-y: scroll;
+  overflow-x: hidden;
 }
 
 .channel .item{
@@ -161,17 +217,22 @@ html {
 .channel span.item.online.twitcasting:hover {
   background-color: #1b71fa;
 }
+
         `}
       </style>
     </div>
   );
 }
 
-chrome.storage.sync.get(['rooms'])
-  .then((data) => {
+chrome.runtime.sendMessage(
+  {
+    event: EVENTS.REQUEST_ROOM_LIST,
+  },
+  (response) => {
     chrome.action.setBadgeText({ text: '' });
     // prevent list the room which is not in the provider list
-    const rooms = (data.rooms || []).filter((r) => PROVIDER[r.provider.toUpperCase()]);
+    const rooms = response.filter((r) => PROVIDER[r.provider.toUpperCase()]);
     const root = createRoot(document.getElementById('root'));
     root.render(<Popup rooms={rooms} />);
-  });
+  },
+);

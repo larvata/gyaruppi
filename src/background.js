@@ -25,7 +25,7 @@ manager.on(EVENTS.STATUS, (room) => {
 
 chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
   if (request.event !== EVENTS.REQUEST_ROOMS_INFO) {
-    return;
+    return false;
   }
 
   // background script will be destory by chrome
@@ -34,6 +34,8 @@ chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => 
     const result = room ? { subscribed: true } : { subscribed: false };
     sendResponse(result);
   });
+
+  return true;
 });
 
 chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => {
@@ -48,6 +50,19 @@ chrome.runtime.onMessageExternal.addListener((request, sender, sendResponse) => 
   }
 
   sendResponse();
+  return true;
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.event !== EVENTS.REQUEST_ROOM_LIST) {
+    return false;
+  }
+
+  manager.getRoomsDeferred((rooms) => {
+    sendResponse(rooms);
+  });
+
+  return true;
 });
 
 global.manager = manager;

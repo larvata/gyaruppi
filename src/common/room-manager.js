@@ -12,23 +12,38 @@ export default class RoomManager extends EventEmitter {
     super();
     this.rooms = [];
     this.initialized = false;
-    this.deferredTasks = [];
 
     this.restore()
       .then(() => this.initialize())
       .then(() => {
         this.initialized = true;
-        this.deferredTasks.forEach((task) => task());
       });
   }
 
   // private
   // restore room info from the local storage
   restore() {
-    return chrome.storage.sync.get([STORAGE_KEY.ROOMS])
+    return chrome.storage.sync.get()
       .then((data) => {
-        this.rooms = (data.rooms || [])
-          .map((roomInfo) => this.add(roomInfo));
+        const keys = Object.keys(data).sort();
+        this.rooms = keys.reduce((result, k) => {
+          if (!k.startsWith(STORAGE_KEY.ROOM_PERFIX)
+            && k !== STORAGE_KEY.ROOMS) {
+            return result;
+          }
+
+          if (k.startsWith(STORAGE_KEY.ROOM_PERFIX)) {
+            const index = Number(k.replace(STORAGE_KEY.ROOM_PERFIX, ''));
+            const maxRoomSolt = (data.maxRoomSolt) || 0;
+            if (index > maxRoomSolt) {
+              return result;
+            }
+          }
+
+          const rooms = (data[k] || [])
+            .map((roomInfo) => this.add(roomInfo));
+          return [...result, ...rooms];
+        }, []);
       });
   }
 
@@ -58,10 +73,37 @@ export default class RoomManager extends EventEmitter {
   }
 
   save() {
-    const roomData = this.rooms.map((r) => r.toJSON());
-    return chrome.storage.sync.set({
-      [STORAGE_KEY.ROOMS]: roomData,
-    });
+    const { QUOTA_BYTES_PER_ITEM } = chrome.storage.sync;
+    const rooms = [...this.rooms];
+    let maxSlotNumber = 0;
+    let slotRooms = [];
+
+    const storageData = {
+      // clear previous version data
+      rooms: [],
+    };
+
+    while (rooms.length) {
+      const room = rooms.shift().toJSON();
+
+      slotRooms.push(room);
+      const json = JSON.stringify(slotRooms);
+      const dataLength = encodeURI(json)
+        .split(/%(?:u[0-9A-F]{2})?[0-9A-F]{2}|./).length - 1;
+      if (dataLength > QUOTA_BYTES_PER_ITEM) {
+        // the slot is full
+        slotRooms.splice(-1);
+
+        maxSlotNumber += 1;
+        slotRooms = [room];
+      }
+
+      storageData[`${STORAGE_KEY.ROOM_PERFIX}${maxSlotNumber}`] = slotRooms;
+    }
+
+    storageData.maxRoomSolt = maxSlotNumber;
+
+    return chrome.storage.sync.set(storageData);
   }
 
   fetchAllRoomInfo() {
@@ -75,14 +117,16 @@ export default class RoomManager extends EventEmitter {
   // returns room info
   add(roomInfo) {
     const exists = this.get(roomInfo);
-    if (exists) {
-      throw new Error(`Room id: ${roomInfo.id} with provider: ${roomInfo.provider} is already exists.`);
-    }
-
     const room = new Room(roomInfo);
     room.on(EVENTS.STATUS, () => {
       this.emit(EVENTS.STATUS, room);
     });
+
+    if (exists) {
+      console.log(`Room id: ${roomInfo.id} with provider: ${roomInfo.provider} is already exists.`);
+      return room;
+    }
+
     this.rooms.push(room);
     this.fetchRoomInfo(room);
     return room;
@@ -110,8 +154,19 @@ export default class RoomManager extends EventEmitter {
     }
 
     // uninitialized
-    this.deferredTasks.push(() => {
-      callback(this.get(roomInfo));
-    });
+    this.restore().then(() => callback(roomInfo));
+  }
+
+  getRoomsDeferred(callback) {
+    if (!callback) {
+      return;
+    }
+
+    if (this.initialized) {
+      callback(this.rooms);
+      return;
+    }
+
+    this.restore().then(() => callback(this.rooms));
   }
 }

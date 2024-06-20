@@ -8,7 +8,6 @@ roomInfo example:
   provider = null,
   // id should be a number
   id = null,
-  domain = '',
   title = '',
   snapshotUrl = '',
   online = 0,
@@ -28,7 +27,6 @@ export default class Room extends EventEmitter {
     [
       'provider',
       'id',
-      'domain',
       'title',
       'snapshotUrl',
       'online',
@@ -67,7 +65,6 @@ export default class Room extends EventEmitter {
       [
         'provider',
         'id',
-        'domain',
         'title',
         'snapshotUrl',
         'online',
@@ -99,7 +96,6 @@ export default class Room extends EventEmitter {
     return [
       'provider',
       'id',
-      'domain',
       'title',
       'snapshotUrl',
       'online',

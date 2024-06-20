@@ -23,10 +23,13 @@ const EVENTS = {
 
   // for the inject script to check the room is exists in the room manager
   REQUEST_ROOMS_INFO: 'request_rooms_info',
+
+  REQUEST_ROOM_LIST: 'request_room_list',
 };
 
 const STORAGE_KEY = {
   ROOMS: 'rooms',
+  ROOM_PERFIX: 'rooms_',
 };
 
 const DOM_DATASET_ID = 'gyaruppi-data';
