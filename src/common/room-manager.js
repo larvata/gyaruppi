@@ -70,6 +70,18 @@ export default class RoomManager extends EventEmitter {
         }
       });
     });
+
+    // handle notivication click event
+    chrome.notifications.onClicked.addListener((notificationId) => {
+      const room = this.getByRoomId(notificationId);
+      if (!room) {
+        return;
+      }
+
+      chrome.tabs.create({
+        url: room.roomUrl,
+      });
+    });
   }
 
   save() {
@@ -141,6 +153,10 @@ export default class RoomManager extends EventEmitter {
 
   get(roomInfo) {
     return this.rooms.find((r) => r.provider === roomInfo.provider && r.id === roomInfo.id);
+  }
+
+  getByRoomId(roomId) {
+    return this.rooms.find((r) => r.getKey() === roomId);
   }
 
   getDeferred(roomInfo, callback) {

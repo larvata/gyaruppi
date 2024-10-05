@@ -90,12 +90,4 @@ export async function showRoomNotification(room) {
   }
 
   chrome.notifications.create(room.getKey(), options);
-  chrome.notifications.onClicked.addListener((notificationId) => {
-    if (notificationId !== room.getKey()) {
-      return;
-    }
-    chrome.tabs.create({
-      url: room.roomUrl,
-    });
-  });
 }
