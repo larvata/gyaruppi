@@ -16,7 +16,7 @@ class BilibiliRoomSubscriber extends RoomSubscriber {
   }
 
   setup() {
-    const container = document.querySelector('.live-title');
+    const container = document.querySelector('.room-owner-username');
     container.before(this.subscribeIcon);
     container.before(this.unsubscribeIcon);
     console.log('BilibiliRoomSubscriber setup done');
@@ -24,7 +24,11 @@ class BilibiliRoomSubscriber extends RoomSubscriber {
 }
 
 waitFor(
-  () => window.BilibiliLive && window.BilibiliLive.ROOMID,
+  () => (
+    window.BilibiliLive
+      && window.BilibiliLive.ROOMID
+      && document.querySelector('.room-owner-username')
+  ),
   () => {
     const subscriber = new BilibiliRoomSubscriber();
   },
