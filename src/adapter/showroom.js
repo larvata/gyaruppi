@@ -1,7 +1,7 @@
 import { ROOM_STATUS } from '../common/constants';
 
-export default (roomId) => {
-  const roomLiveInfoUrl = `https://www.showroom-live.com/api/room/profile?room_id=${roomId}`;
+export default (room) => {
+  const roomLiveInfoUrl = `https://www.showroom-live.com/api/room/profile?room_id=${room.id}`;
 
   return fetch(roomLiveInfoUrl)
     .then((res) => res.json())

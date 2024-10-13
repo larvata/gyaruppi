@@ -4,6 +4,9 @@ const PROVIDER = {
   BILIBILI: 'bilibili',
   SHOWROOM: 'showroom',
   OPENREC: 'openrec',
+  KUAISHOU: 'kuaishou',
+  DOUYIN: 'douyin',
+
 
   // disabled due to the secret key change
   // TWITCASTING: 'twitcasting',

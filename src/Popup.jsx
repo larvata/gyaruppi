@@ -80,6 +80,7 @@ function Popup(props) {
         </span>*/}
         <a
           title={altText}
+          data-content={displayText}
         >
           {displayText}
         </a>
@@ -216,6 +217,40 @@ html {
 }
 .channel span.item.online.twitcasting:hover {
   background-color: #1b71fa;
+}
+
+.channel span.item.online.kuaishou {
+  color: white;
+  background-color: #fe3566;
+}
+.channel span.item.online.kuaishou:hover {
+  background-color: #fe4975;
+}
+
+
+.channel span.item.online.douyin a::before {
+  color: #28FBED;
+  content: attr(data-content);
+  position: absolute;
+  left: 1px;
+  width: 100%;
+}
+
+.channel span.item.online.douyin {
+  color: #FA1D4D;
+  background-color: #121212;
+  position: relative !important;
+}
+.channel span.item.online.douyin:hover {
+  background-color: #121233;
+}
+
+.channel span.item.online.douyin a::after {
+  color: white;
+  content: attr(data-content);
+  position: absolute;
+  left: 2px;
+  width: 100%;
 }
 
         `}

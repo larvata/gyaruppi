@@ -6,7 +6,7 @@ eslint-disable
 import { ROOM_STATUS } from '../common/constants';
 import { now } from '../common/utils';
 
-async function getSessionId(roomId) {
+async function getSessionId(room) {
   // not a actual expiration interval but it is long enough for using
   const SESSION_EXPIRED_IN = 1000 * 60 * 60 * 24;
 
@@ -15,7 +15,7 @@ async function getSessionId(roomId) {
     return data.sessionId;
   }
 
-  const roomUrl = `https://twitcasting.tv/${roomId}`;
+  const roomUrl = `https://twitcasting.tv/${room.id}`;
   const html = await fetch(roomUrl).then((res) => res.text());
   const sessionId = html.match(/web-authorize-session-id&quot;:&quot;([a-zA-Z0-9=:]*)&quot;/)[1];
   chrome.storage.local.set({
@@ -27,12 +27,12 @@ async function getSessionId(roomId) {
   return sessionId;
 }
 
-async function getLatestMovie(roomId) {
+async function getLatestMovie(room) {
   const timestamp = now();
   const timestampShort = Math.floor(timestamp / 1000);
-  const latestMoiveUrl = `https://frontendapi.twitcasting.tv/users/${roomId}/latest-movie?__n=${timestamp}`;
+  const latestMoiveUrl = `https://frontendapi.twitcasting.tv/users/${room.id}/latest-movie?__n=${timestamp}`;
   const u = new URL(latestMoiveUrl);
-  const sessionId = await getSessionId(roomId);
+  const sessionId = await getSessionId(room.id);
   const parameterString = '3gapbnr449n856tj'
     .concat(timestampShort)
     .concat('GET')

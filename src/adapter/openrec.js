@@ -5,8 +5,8 @@ eslint-disable
 
 import { ROOM_STATUS } from '../common/constants';
 
-export default (roomId) => {
-  const roomLiveInfoUrl = `https://public.openrec.tv/external/api/v5/search-movies?channel_ids=${roomId}`;
+export default (room) => {
+  const roomLiveInfoUrl = `https://public.openrec.tv/external/api/v5/search-movies?channel_ids=${room.id}`;
 
   return fetch(roomLiveInfoUrl)
     .then((res) => res.json())

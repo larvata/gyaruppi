@@ -1,7 +1,7 @@
 import { ROOM_STATUS } from '../common/constants';
 
-export default (roomId) => {
-  const roomLiveInfoUrl = `https://apis.zhanqi.tv/static/v2.2/room/${roomId}.json`;
+export default (room) => {
+  const roomLiveInfoUrl = `https://apis.zhanqi.tv/static/v2.2/room/${room.id}.json`;
 
   return fetch(roomLiveInfoUrl)
     .then((res) => res.json())

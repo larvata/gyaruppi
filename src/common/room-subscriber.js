@@ -12,16 +12,17 @@ export default class RoomSubscriber {
     }
 
     this.options = options;
-    this.options.extensionId = document.querySelector(`#${DOM_DATASET_ID}`).dataset.extensionId;
+    this.extensionId = document.querySelector(`#${DOM_DATASET_ID}`).dataset.extensionId;
     this.init();
 
     chrome.runtime.sendMessage(
-      this.options.extensionId,
+      this.extensionId,
       {
         event: EVENTS.REQUEST_ROOMS_INFO,
-        provider: this.options.provider,
-        id: this.options.id,
-        title: this.options.title,
+        // provider: this.options.provider,
+        // id: this.options.id,
+        // title: this.options.title,
+        ...this.options,
       },
       (response) => {
         this.setup(response);
@@ -36,30 +37,35 @@ export default class RoomSubscriber {
     this.subscribeIcon.style.cursor = 'pointer';
     this.subscribeIcon.style.display = 'none';
     this.subscribeIcon.style.paddingRight = '5px';
+    this.subscribeIcon.style.userSelect = 'all';
+    this.subscribeIcon.style.pointerEvents = 'all';
     this.subscribeIcon.classList.add('gyaruppi-bell');
     this.unsubscribeIcon = this.subscribeIcon.cloneNode();
 
     this.subscribeIcon.classList.add('unsubscribed');
     this.subscribeIcon.src = unsubscribeIconBase64;
-    this.subscribeIcon.addEventListener('click', () => {
+    this.subscribeIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
       this.subscribe(true);
     });
 
     this.unsubscribeIcon.classList.add('subscribed');
     this.unsubscribeIcon.src = subscribeIconBase64;
-    this.unsubscribeIcon.addEventListener('click', () => {
+    this.unsubscribeIcon.addEventListener('click', (e) => {
+      e.stopPropagation();
       this.subscribe(false);
     });
   }
 
   subscribe(isSubscribe) {
     chrome.runtime.sendMessage(
-      this.options.extensionId,
+      this.extensionId,
       {
         event: EVENTS.SUBSCRIBE_ROOM,
-        provider: this.options.provider,
-        id: this.options.id,
+        // provider: this.options.provider,
+        // id: this.options.id,
         subscribe: isSubscribe,
+        ...this.options,
       },
       (response) => {
         this.updateIcon({ subscribed: isSubscribe });

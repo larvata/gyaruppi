@@ -36,6 +36,9 @@ export default class Room extends EventEmitter {
       'username',
       'roomUrl',
       'status',
+
+      // for douyin
+      'rid',
     ].forEach((key) => {
       this[key] = roomInfo[key];
     });
@@ -61,7 +64,7 @@ export default class Room extends EventEmitter {
     }
 
     const lastStatus = this.status;
-    return this.adapter(this.id).then((data) => {
+    return this.adapter(this).then((data) => {
       [
         'provider',
         'id',
@@ -74,6 +77,9 @@ export default class Room extends EventEmitter {
         'username',
         'roomUrl',
         'status',
+
+        // for douyin
+        'rid',
       ].forEach((key) => {
         if (data[key] === undefined) {
           return;
@@ -105,6 +111,9 @@ export default class Room extends EventEmitter {
       'username',
       'roomUrl',
       'status',
+
+      // for douyin
+        'rid',
     ].reduce((ret, key) => {
       // eslint-disable-next-line no-param-reassign
       ret[key] = this[key];

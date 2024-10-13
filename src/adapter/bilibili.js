@@ -5,8 +5,8 @@ eslint-disable
 
 import { ROOM_STATUS } from '../common/constants';
 
-export default (roomId) => {
-  const roomLiveInfoUrl = `https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id=${roomId}`;
+export default (room) => {
+  const roomLiveInfoUrl = `https://api.live.bilibili.com/xlive/web-room/v1/index/getInfoByRoom?room_id=${room.id}`;
 
   return fetch(roomLiveInfoUrl)
     .then((res) => res.json())

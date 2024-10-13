@@ -25,5 +25,15 @@ module.exports = [{
 //   name: PROVIDER.TWITCASTING,
 //   host_permissions: 'https://*.twitcasting.tv/*',
 //   content_scripts: 'https://twitcasting.tv/*',
-// }
+// },
+{
+  name: PROVIDER.KUAISHOU,
+  host_permissions: 'https://live.kuaishou.com/',
+  content_scripts: 'https://live.kuaishou.com/*',
+},
+{
+  name: PROVIDER.DOUYIN,
+  host_permissions: 'https://live.douyin.com/',
+  content_scripts: 'https://live.douyin.com/*',
+},
 ];

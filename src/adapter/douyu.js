@@ -1,7 +1,7 @@
 import { ROOM_STATUS } from '../common/constants';
 
-export default (roomId) => {
-  const roomLiveInfoUrl = `https://www.douyu.com/betard/${roomId}`;
+export default (room) => {
+  const roomLiveInfoUrl = `https://www.douyu.com/betard/${room.id}`;
 
   return fetch(roomLiveInfoUrl)
     .then((res) => res.json())
