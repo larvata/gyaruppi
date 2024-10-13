@@ -1,6 +1,6 @@
 {
   "name": "ctx-live-notification",
-  "version": "2.2.1",
+  "version": "2.2.2",
   "description": "Add the \"Go Live Streaming Notifications\" ability to the live streaming services (bilibili, douyu, zhanqi, showroom, openrec).",
   "scripts": {
     "build": "webpack --mode=production --node-env=production",
