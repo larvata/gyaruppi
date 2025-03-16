@@ -20,7 +20,8 @@ function getRoomId() {
 
 function getContainer() {
   return document.querySelector('.user-info-name')
-    || document.querySelector('.info-group');
+    || document.querySelector('.info-group')
+    || document.querySelector('.author .info')
 }
 
 class KuaishouRoomSubscriber extends RoomSubscriber {

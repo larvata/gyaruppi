@@ -13,6 +13,7 @@ Supported Sites:
 - showroom
 - ~~twitcasting~~
 - zhanqi
+- douyin
 
 
 ## Development

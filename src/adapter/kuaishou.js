@@ -1,7 +1,7 @@
 import { ROOM_STATUS } from '../common/constants';
 
 export default (room) => {
-  const roomLiveInfoUrl = `https://live.kuaishou.com/live_api/profile/public?principalId=${room.id}`;
+  const roomLiveInfoUrl = `https://live.kuaishou.com/live_api/liveroom/livedetail?principalId=${room.id}`;
 
   return fetch(roomLiveInfoUrl)
     .then((res) => res.json())

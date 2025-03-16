@@ -16,7 +16,7 @@ manager.on(EVENTS.STATUS, (room) => {
   } else {
     // offline
     removeRoomNotification(room);
-    const allOffline = manager.rooms.every((r) => r.status === ROOM_STATUS.OFFLINE);
+    const allOffline = manager.rooms.every((r) => r.status !== ROOM_STATUS.ONLINE);
     if (allOffline) {
       chrome.action.setBadgeText({ text: '' });
     }

@@ -102,7 +102,9 @@ export default class RoomManager extends EventEmitter {
       const json = JSON.stringify(slotRooms);
       const dataLength = encodeURI(json)
         .split(/%(?:u[0-9A-F]{2})?[0-9A-F]{2}|./).length - 1;
-      if (dataLength > QUOTA_BYTES_PER_ITEM) {
+
+      // reserve 1k byte to prevent the new data from exceeding the qouta
+      if (dataLength > QUOTA_BYTES_PER_ITEM - 1024) {
         // the slot is full
         slotRooms.splice(-1);
 
