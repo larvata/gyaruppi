@@ -12,9 +12,9 @@ export default (room) => {
         ? ROOM_STATUS.OFFLINE
         : ROOM_STATUS.ONLINE;
 
-      result.title = html.match(/\\"title\\":\\"(\S+?)\\"/)[1];
+      result.title = html.match(/\\"title\\":\\"(.*?)\\"/)[1];
       result.snapshotUrl = '';
-      result.username = html.match(/\\"nickname\\":\\"(\S+?)\\"/)[1];
+      result.username = html.match(/\\"nickname\\":\\"(.*?)\\"/)[1];
       result.liveStartAt = parseInt(new Date().getTime() / 1000, 10);
       result.roomUrl = `https://live.douyin.com/${room.rid}`;
       result.avatarUrl = '';

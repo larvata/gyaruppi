@@ -41,7 +41,12 @@ export default class RoomManager extends EventEmitter {
           }
 
           const rooms = (data[k] || [])
-            .map((roomInfo) => this.add(roomInfo));
+            .map((roomInfo) => {
+              // dont touch the status of the roomInfo
+              // restore() would be called multiple times
+              // due to backend.js work as a servicesworker
+              return this.add(roomInfo);
+            });
           return [...result, ...rooms];
         }, []);
       });
@@ -186,5 +191,25 @@ export default class RoomManager extends EventEmitter {
     }
 
     this.restore().then(() => callback(this.rooms));
+  }
+
+  getNotificationEnabled() {
+    return chrome.storage.sync.get([STORAGE_KEY.NOTIFICATION_ENABLED])
+      .then((data) => {
+        let enabled = data[STORAGE_KEY.NOTIFICATION_ENABLED];
+        if (enabled === undefined) {
+          enabled = true;
+        }
+        return enabled;
+      });
+  }
+
+  toggleNotification() {
+    return this.getNotificationEnabled().then((enabled) => {
+      chrome.storage.sync.set({
+        [STORAGE_KEY.NOTIFICATION_ENABLED]: !enabled,
+      });
+      return !enabled;
+    });
   }
 }

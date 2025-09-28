@@ -30,11 +30,15 @@ const EVENTS = {
   REQUEST_ROOMS_INFO: 'request_rooms_info',
 
   REQUEST_ROOM_LIST: 'request_room_list',
+
+  GET_NOTIFICATION_ENABLED: 'get_notification_enabled',
+  TOGGLE_NOTIFICATION: 'toggle_notification',
 };
 
 const STORAGE_KEY = {
   ROOMS: 'rooms',
   ROOM_PERFIX: 'rooms_',
+  NOTIFICATION_ENABLED: 'notification',
 };
 
 const DOM_DATASET_ID = 'gyaruppi-data';

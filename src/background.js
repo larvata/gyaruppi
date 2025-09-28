@@ -9,7 +9,13 @@ const manager = new RoomManager();
 
 manager.on(EVENTS.STATUS, (room) => {
   if (room.status === ROOM_STATUS.ONLINE) {
-    showRoomNotification(room);
+    manager.getNotificationEnabled().then((enabled) => {
+      if (!enabled) {
+        return;
+      }
+      showRoomNotification(room);
+    });
+
     chrome.action.setBadgeBackgroundColor({ color: '#f1592b' });
     chrome.action.setBadgeTextColor({ color: 'white' });
     chrome.action.setBadgeText({ text: '!' });
@@ -60,6 +66,30 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 
   manager.getRoomsDeferred((rooms) => {
     sendResponse(rooms);
+  });
+
+  return true;
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.event !== EVENTS.GET_NOTIFICATION_ENABLED) {
+    return false;
+  }
+
+  manager.getNotificationEnabled().then((enabled) => {
+    sendResponse(enabled);
+  });
+
+  return true;
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.event !== EVENTS.TOGGLE_NOTIFICATION) {
+    return false;
+  }
+
+  manager.toggleNotification().then((enabled) => {
+    sendResponse(enabled);
   });
 
   return true;

@@ -25,23 +25,108 @@ function Link(props) {
   );
 }
 
-function Footer() {
+function Footer(props) {
+  const onToggle = () => {
+    const toggleBtn = document.querySelector('.btn-toggle-notification');
+    chrome.runtime.sendMessage({ event: EVENTS.TOGGLE_NOTIFICATION }, (enabled) => {
+      if (enabled) {
+        toggleBtn.classList.remove('disabled');
+      } else {
+        toggleBtn.classList.add('disabled');
+      }
+    });
+  };
+
   return (
     <div className="footer">
-      <div>
-      {chrome.runtime.getManifest().version}
+      <div className="grid">
+        <div className={`round-toggle-button btn-toggle-notification ${props.initialEnabled ? '' : ' disabled'}`} onClick={onToggle}>
+          <div className="button" />
+        </div>
       </div>
-      <span>
-      </span>
-      <Link href={chrome.i18n.getMessage('feedback_url')}>
-        {chrome.i18n.getMessage('feedback_text')}
-      </Link>
-
+      <div className="grid">
+        <div>
+        {chrome.runtime.getManifest().version}
+        </div>
+        <span>
+        </span>
+        <Link href={chrome.i18n.getMessage('feedback_url')}>
+          {chrome.i18n.getMessage('feedback_text')}
+        </Link>
+      </div>
       <style jsx="true">
         {`
 .footer {
   text-align: right;
   padding: 5px 10px 10px 10px;
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+.grid {
+  display: inline-block;
+}
+
+      // @font-face {
+      //   font-family: 'Inter';
+      //   font-style:  normal;
+      //   font-weight: 700;
+      //   font-display: swap;
+      //   src: url("Inter-Bold.woff2") format("woff2");
+      // }
+
+.round-toggle-button {
+  cursor: pointer;
+  width: 48px;
+  height: 20px;
+  border-radius: 10px;
+  background: #337ab7;
+  transition: background .3s;
+  position: relative;
+}
+.round-toggle-button:hover {
+  background: #265a88;
+}
+.round-toggle-button::before {
+  width: 24px;
+  height: 100%;
+  margin: 0 5px;
+  font-family: Inter;
+  font-style: normal;
+  font-weight: 700;
+  font-size: 10px;
+  line-height: 16px;
+  letter-spacing: .4px;
+  color: #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  content: 'ON';
+}
+.round-toggle-button .button {
+  top: 2px;
+  position: absolute;
+  width: 16px;
+  height: 16px;
+  border-radius: 8px;
+  background: #fff!important;
+  display: inline-block;
+  transition: left .2s,background .2s;
+  left: 30px;
+}
+
+.round-toggle-button.disabled {
+  background: #9fa6bf;
+}
+.round-toggle-button.disabled:hover {
+  background: #6d758d;
+}
+.round-toggle-button.disabled::before {
+  float: right;
+  content: 'OFF';
+}
+.round-toggle-button.disabled .button {
+  left: 2px;
 }
         `}
       </style>
@@ -101,7 +186,7 @@ function Popup(props) {
         {roomButtons}
       </div>
       {tips}
-      <Footer />
+      <Footer initialEnabled={props.initialEnabled} />
 
       <style jsx="true">
         {`
@@ -259,15 +344,13 @@ html {
   );
 }
 
-chrome.runtime.sendMessage(
-  {
-    event: EVENTS.REQUEST_ROOM_LIST,
-  },
-  (response) => {
-    chrome.action.setBadgeText({ text: '' });
-    // prevent list the room which is not in the provider list
-    const rooms = response.filter((r) => PROVIDER[r.provider.toUpperCase()]);
-    const root = createRoot(document.getElementById('root'));
-    root.render(<Popup rooms={rooms} />);
-  },
-);
+(async () => {
+  const roomInfo = await chrome.runtime.sendMessage({ event: EVENTS.REQUEST_ROOM_LIST });
+  const enabled = await chrome.runtime.sendMessage({ event: EVENTS.GET_NOTIFICATION_ENABLED });
+
+  chrome.action.setBadgeText({ text: '' });
+  // prevent list the room which is not in the provider list
+  const rooms = roomInfo.filter((r) => PROVIDER[r.provider.toUpperCase()]);
+  const root = createRoot(document.getElementById('root'));
+  root.render(<Popup rooms={rooms} initialEnabled={enabled} />);
+})();
