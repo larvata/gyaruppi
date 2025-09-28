@@ -33,7 +33,12 @@ module.exports = [{
 // },
 {
   name: PROVIDER.DOUYIN,
-  host_permissions: 'https://live.douyin.com/',
+  host_permissions: 'https://webcast.amemv.com/',
   content_scripts: 'https://live.douyin.com/*',
+},
+{
+  name: PROVIDER.HUYA,
+  host_permissions: 'https://m.huya.com/',
+  content_scripts: 'https://www.huya.com/*',
 },
 ];

@@ -5,6 +5,7 @@ const PROVIDER = {
   SHOWROOM: 'showroom',
   OPENREC: 'openrec',
   DOUYIN: 'douyin',
+  HUYA: 'huya',
 
   // disabled due to session authentication
   // KUAISHOU: 'kuaishou',

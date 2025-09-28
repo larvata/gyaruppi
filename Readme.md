@@ -14,6 +14,7 @@ Supported Sites:
 - ~~twitcasting~~
 - zhanqi
 - douyin
+- huya
 
 
 ## Development

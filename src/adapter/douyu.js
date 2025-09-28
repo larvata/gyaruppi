@@ -9,7 +9,7 @@ export default (room) => {
       const { room } = json;
 
       let status = ROOM_STATUS.OFFLINE;
-      if (room.show_status === 1) {
+      if (room.show_status === 1 && !room.videoLoop) {
         status = ROOM_STATUS.ONLINE;
       }
 
