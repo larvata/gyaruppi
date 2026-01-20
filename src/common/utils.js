@@ -83,7 +83,7 @@ export async function showRoomNotification(room) {
     message: elapsedString,
   };
 
-  if ('image' in Notification.prototype) {
+  if ('image' in Notification.prototype && room.snapshotUrl) {
     // Image is supported (before chrome 59)
     options.imageUrl = room.snapshotUrl;
     options.type = 'image';

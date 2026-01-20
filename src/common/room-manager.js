@@ -4,7 +4,7 @@
 
 import EventEmitter from 'eventemitter3';
 
-import { ALARMS, STORAGE_KEY, EVENTS } from './constants';
+import { ALARMS, STORAGE_KEY, EVENTS, PROVIDER } from './constants';
 import Room from './room';
 
 export default class RoomManager extends EventEmitter {
@@ -136,15 +136,15 @@ export default class RoomManager extends EventEmitter {
   // returns room info
   add(roomInfo) {
     const exists = this.get(roomInfo);
-    const room = new Room(roomInfo);
-    room.on(EVENTS.STATUS, () => {
-      this.emit(EVENTS.STATUS, room);
-    });
-
     if (exists) {
       console.log(`Room id: ${roomInfo.id} with provider: ${roomInfo.provider} is already exists.`);
       return room;
     }
+
+    const room = new Room(roomInfo);
+    room.on(EVENTS.STATUS, () => {
+      this.emit(EVENTS.STATUS, room);
+    });
 
     this.rooms.push(room);
     this.fetchRoomInfo(room);
@@ -159,7 +159,16 @@ export default class RoomManager extends EventEmitter {
   }
 
   get(roomInfo) {
-    return this.rooms.find((r) => r.provider === roomInfo.provider && r.id === roomInfo.id);
+    return this.rooms.find((r) => {
+      if (r.provider !== roomInfo.provider) {
+        return false;
+      }
+
+      if (r.provider === PROVIDER.DOUYIN) {
+        return r.rid === roomInfo.rid;
+      }
+      return r.id === roomInfo.id;
+    });
   }
 
   getByRoomId(roomId) {

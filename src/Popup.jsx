@@ -231,7 +231,7 @@ html {
 }
 
 .channel {
-  max-height: 520px;
+  max-height: 510px;
   overflow-y: scroll;
   overflow-x: hidden;
 }
@@ -312,6 +312,13 @@ html {
   background-color: #fe4975;
 }
 
+.channel span.item.online.huya {
+  color: #222;
+  background-color: #ffe44d;
+}
+.channel span.item.online.huya:hover {
+  background-color: #ebd735;
+}
 
 .channel span.item.online.douyin a::before {
   color: #28FBED;
@@ -335,6 +342,7 @@ html {
   content: attr(data-content);
   position: absolute;
   left: 2px;
+  top: 6px;
   width: 100%;
 }
 
