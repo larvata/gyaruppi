@@ -72,6 +72,18 @@ chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
 });
 
 chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
+  if (request.event !== EVENTS.SORT_ROOMS) {
+    return false;
+  }
+
+  manager.sortRooms(request.roomOrder).then(() => {
+    sendResponse({ success: true });
+  });
+  
+  return true;
+});
+
+chrome.runtime.onMessage.addListener((request, sender, sendResponse) => {
   if (request.event !== EVENTS.GET_NOTIFICATION_ENABLED) {
     return false;
   }

@@ -5,6 +5,8 @@
 */
 
 import { createRoot } from 'react-dom/client';
+import { useState } from 'react';
+
 import {
   ROOM_STATUS,
   PROVIDER,
@@ -135,10 +137,47 @@ function Footer(props) {
 }
 
 function Popup(props) {
-  const roomButtons = props.rooms.map((room) => {
+  const [rooms, setRooms] = useState(props.rooms);
+  const [draggedIndex, setDraggedIndex] = useState(null); 
+
+  const handleDragStart = (e, index) => {
+    setDraggedIndex(index);
+    e.dataTransfer.effectAllowed = 'move';
+    e.dataTransfer.setData('text/html', e.currentTarget);
+  };
+
+  const handleDragOver = (e, index) => {
+    e.preventDefault();
+    if (draggedIndex === null || draggedIndex === index) {
+      return;
+    }
+
+    const newRooms = [...rooms];
+    const draggedRoom = newRooms[draggedIndex];
+    newRooms.splice(draggedIndex, 1);
+    newRooms.splice(index, 0, draggedRoom);
+
+    setDraggedIndex(index);
+    setRooms(newRooms);
+  };
+
+  const handleDragEnd = () => {
+    setDraggedIndex(null);
+
+    // save the new order to storage
+    chrome.runtime.sendMessage({
+      event: EVENTS.SORT_ROOMS,
+      roomOrder: rooms.map((r) => r.key),
+    });
+  };
+
+  const roomButtons = rooms.map((room, index) => {
     const classArray = ['item', 'tooltip', room.provider];
     if (room.status === ROOM_STATUS.ONLINE) {
       classArray.push('online');
+    }
+    if (draggedIndex === index) {
+      classArray.push('dragging');
     }
 
     const displayText = `${room.title} (${room.online || '-'})`;
@@ -156,13 +195,14 @@ function Popup(props) {
       <span
         key={room.key}
         className={classArray.join(' ')}
+        draggable="true"
+        onDragStart={(e) => handleDragStart(e, index)}
+        onDragOver={(e) => handleDragOver(e, index)}
+        onDragEnd={handleDragEnd}
         onClick={() => chrome.tabs.create({
           url: room.roomUrl,
         })}
       >
-{/*        <span className="tooltiptext">
-          {tooltipArray}
-        </span>*/}
         <a
           title={altText}
           data-content={displayText}
@@ -245,6 +285,10 @@ html {
   width: 100%;
   background-color: rgb(230,230,230);
   cursor: pointer;
+}
+
+.channel .item.dragging {
+  opacity: 0.5;
 }
 
 .channel .item:hover{

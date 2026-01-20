@@ -30,6 +30,7 @@ const EVENTS = {
   REQUEST_ROOMS_INFO: 'request_rooms_info',
 
   REQUEST_ROOM_LIST: 'request_room_list',
+  SORT_ROOMS: 'sort_rooms',
 
   GET_NOTIFICATION_ENABLED: 'get_notification_enabled',
   TOGGLE_NOTIFICATION: 'toggle_notification',

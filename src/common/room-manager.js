@@ -129,6 +129,16 @@ export default class RoomManager extends EventEmitter {
     this.rooms.forEach((room) => this.fetchRoomInfo(room));
   }
 
+  sortRooms(roomOrder) {
+    this.rooms.sort((a, b) => {
+      const indexA = roomOrder.indexOf(a.getKey());
+      const indexB = roomOrder.indexOf(b.getKey());
+      return indexA - indexB;
+    });
+
+    return this.save();
+  }
+
   fetchRoomInfo(room) {
     room.fetchRoomInfo().then(() => this.save());
   }
