@@ -33,7 +33,9 @@ export default class RoomSubscriber {
 
   init() {
     this.subscribeIcon = document.createElement('img');
-    this.subscribeIcon.style.width = '24px';
+    // this.subscribeIcon.style.width = '24px';
+    this.subscribeIcon.style.height = '1.2em';
+    this.subscribeIcon.style.verticalAlign = 'bottom';
     this.subscribeIcon.style.cursor = 'pointer';
     this.subscribeIcon.style.display = 'none';
     this.subscribeIcon.style.paddingRight = '5px';

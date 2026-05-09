@@ -16,9 +16,10 @@ class BilibiliRoomSubscriber extends RoomSubscriber {
   }
 
   setup() {
-    const container = document.querySelector('.room-owner-username');
-    container.before(this.subscribeIcon);
-    container.before(this.unsubscribeIcon);
+    const container = document.querySelector('.room-owner-username')
+      || document.querySelector('.live-title > div > div');
+    container.prepend(this.subscribeIcon);
+    container.prepend(this.unsubscribeIcon);
     console.log('BilibiliRoomSubscriber setup done');
   }
 }
