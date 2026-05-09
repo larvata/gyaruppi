@@ -148,7 +148,7 @@ export default class RoomManager extends EventEmitter {
     const exists = this.get(roomInfo);
     if (exists) {
       console.log(`Room id: ${roomInfo.id} with provider: ${roomInfo.provider} is already exists.`);
-      return room;
+      return exists;
     }
 
     const room = new Room(roomInfo);
@@ -177,6 +177,10 @@ export default class RoomManager extends EventEmitter {
       if (r.provider === PROVIDER.DOUYIN) {
         return r.rid === roomInfo.rid;
       }
+
+      if (!roomInfo.id) {
+        console.error('roomInfo should have id field', roomInfo);
+      }
       return r.id === roomInfo.id;
     });
   }
@@ -196,7 +200,7 @@ export default class RoomManager extends EventEmitter {
     }
 
     // uninitialized
-    this.restore().then(() => callback(roomInfo));
+    this.restore().then(() => callback(this.get(roomInfo)));
   }
 
   getRoomsDeferred(callback) {

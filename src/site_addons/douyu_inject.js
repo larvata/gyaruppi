@@ -9,8 +9,7 @@ class DouyuRoomSubscriber extends RoomSubscriber {
   constructor(options) {
     super({
       provider: PROVIDER.DOUYU,
-      id: window.room_id
-        || window.apm_room_id,
+      id: (window.$ROOM && window.$ROOM.room_id),
       ...options,
     });
   }
